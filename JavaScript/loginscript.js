@@ -7,7 +7,6 @@ function Login(){
     const readName = userName.value;
     const readPass = userPass.value;
     const userList = [{username:"admin",password:"password"},{username:"admin2",password:"password2"}];
-    const failLogin = document.getElementById("failLogin");
     
     //Make sure there is something in the input
     if (readName !== "" && readPass !== ""){
@@ -23,13 +22,13 @@ function Login(){
         }else{
             userName.value = "";
             userPass.value = "";
-            failLogin.textContent = "Please enter valid credentials";
+            alert("Please enter valid credentials");
         }
     //if user enters nothing clear entries and ask them to do something
     }else{
         userName.value = "";
         userPass.value = "";
-        failLogin.textContent = "Please enter anything";
+        alert("Please enter anything");
     }
 }
 
