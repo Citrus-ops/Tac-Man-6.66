@@ -1,0 +1,281 @@
+body {
+    background-color: #000814;
+    background-image:
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("../images/background.jpg");
+    color: white;
+    border: 4px solid #52ae10;
+    box-shadow: 0 0 20px #52ae10;
+    text-align: center;
+    font-family: "Press Start 2P", monospace;
+}
+
+/* --- INPUTS --- */
+input[type="date"],
+input[type="time"] {
+    color-scheme: dark;
+}
+
+
+#addTask, #taskDate, #taskTime {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #ffd60a;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #000814;
+    color: #ffd60a;
+    box-shadow: 0 0 6px #ffd60a;
+    font-family: "Press Start 2P", monospace;
+    margin-top: 10px;
+}
+
+#addTask:focus, #taskDate:focus, #taskTime:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 10px #ffd60a;
+}
+
+/* --- ADD BUTTON --- */
+#BtnAddTask {
+    padding: 10px 16px;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ffcc00;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Press Start 2P", monospace;
+}
+
+#BtnAddTask:hover {
+    background: #ffcc00bd;
+}
+
+/* --- TASK LIST --- */
+#taskList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 12px 12px 60px;
+    background: #001233;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    background-position: 5px center;
+    border-radius: 12px;
+    border: 2px solid #003566;
+    gap: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #003566;
+    color: #ffd60a;
+}
+
+/* --- COMPLETED TASKS --- */
+#completedList li {
+    background-image: none !important;
+    box-shadow: none !important;
+    border: 2px solid #444;
+    padding-left: 20px;
+    color: #ccc;
+}
+
+/* --- GLOW COLORS --- */
+.glow-green { box-shadow: 0 0 12px 4px #1cc400; }
+.glow-yellow { box-shadow: 0 0 12px 4px #fff60e; }
+.glow-orange { box-shadow: 0 0 12px 4px #ff7800; }
+.glow-red { box-shadow: 0 0 12px 4px #ed1c24; }
+
+/* --- TASK CONTENT --- */
+.task-text {
+    flex-grow: 1;
+    font-size: 25px;
+}
+
+.task-date {
+    font-size: 20px;
+    color: #ffd60a;
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* --- BUTTONS --- */
+.task-actions button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.task-actions button:first-child { 
+    background: #2196F3; 
+    color: white; 
+}
+.task-actions button:last-child { 
+    background: #FF0000; 
+    color: white; 
+}
+
+.task-actions button:first-child:hover { 
+    background: #0b7ddae2; 
+    box-shadow: 0 0 10px #0b7ddae2;
+}
+.task-actions button:last-child:hover { 
+    background: #ff0000cf;
+    box-shadow: 0 0 10px #ff0000cf;
+}
+
+.edit-btn {
+    background: #f69f25;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #f79000e0;
+    box-shadow: 0 0 10px #f79000e0;
+}
+
+/* --- EDIT MODE --- */
+.save-btn { 
+    background: #2196F3;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer; 
+}
+
+.save-btn:hover {
+    background: #0b7ddae2; 
+    box-shadow: 0 0 10px #0b7ddae2;
+}
+
+.cancel-btn { 
+    background: #FF0000;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer; 
+}
+
+.cancel-btn:hover {
+    background: #ff0000cf;
+    box-shadow: 0 0 10px #ff0000cf;
+}
+
+.confirm-btn {
+    background: #2196F3;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.confirm-btn:hover {
+    background: #0b7ddabe;
+}
+
+.edit-actions { display: flex; gap: 10px; }
+
+/* --- HEADER --- */
+.heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* space between text and logo */
+    padding: 10px 20px;
+    margin: 20px auto;
+    border: 4px double #52ae10;
+    border-radius: 4px;
+    background-image:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url("../images/background2.jpg");
+    background-size: cover;
+    background-position: center;
+    max-width: 800px; /* keeps it from stretching too wide */
+}
+
+.heading img {
+    width: 80px;
+    height: auto;
+}
+
+/* --- MODAL --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #001233;
+    border: 3px solid #52ae10;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    color: #ffd60a;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
+/* Date, Time, and Text in edit mode */
+
+.task-info input[type="text"],.task-info input[type="date"],.task-info input[type="time"] {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #ffd60a;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #000814;
+    color: #ffd60a;
+    box-shadow: 0 0 6px #ffd60a;
+    font-family: "Press Start 2P", monospace;
+    text-align: center;
+}
+
+/* Fix for dark-mode date/time pickers stupid chrome */
+.task-info input[type="date"],.task-info input[type="time"] {
+    color-scheme: dark;
+}
+
+/* Keeps the same yellow outline when typing in textbox, no idea why */
+.task-info input[type="text"]:focus,.task-info input[type="date"]:focus,.task-info input[type="time"]:focus {
+    border-color: #ffd60a;
+    box-shadow: 0 0 10px #ffd60a;
+    outline: none;
+}
+
+
+/* Makes the add task feature look disabled while the edit mode disables it */
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
