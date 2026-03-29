@@ -6,4 +6,9 @@ function Header(){
     </div>);
 }
 
-export default Header
+// Find the DOM container element by its ID
+const domNode = document.getElementById('reactHeader');
+
+// Create a React root and render your component inside the container
+const root = ReactDOM.createRoot(domNode);
+root.render(<Header />);

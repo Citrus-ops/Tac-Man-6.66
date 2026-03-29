@@ -7,4 +7,9 @@ function Footer(){
     );
 }
 
-export default Footer
+// Find the DOM container element by its ID
+const domNode = document.getElementById('reactFooter');
+
+// Create a React root and render your component inside the container
+const root = ReactDOM.createRoot(domNode);
+root.render(<Footer />);

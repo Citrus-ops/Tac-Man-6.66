@@ -10,12 +10,14 @@
 
 <body>
 
-    <div id="reactContainer">
-        <script src="https://unpkg.com"></script>
-        <script src="https://unpkg.com"></script>
-        <script type="text" src="./Components/Header.js"></script>
+    <div id="reactHeader">
+        <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel" src="./Components/Header.js"></script>
+        <script type="text/babel">ReactDOM.render(<Header />, document.querySelector('#reactContainer'));</script>
     </div>
-
+       
     <div id="currentDateTime"></div>
 
     <label>New Task:</label>
@@ -67,6 +69,12 @@
     <script src="JavaScript/indexscript.js"></script>
 
 </body>
-
+    <div id="reactFooter">
+        <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel" src="./Components/Footer.js"></script>
+        <script type="text/babel">ReactDOM.render(<Footer />, document.querySelector('#reactFooter'));</script>
+    </div>
 
 </html>

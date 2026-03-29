@@ -6,10 +6,13 @@
         <link rel="icon" type="image/x-icon" href="images/favicon.ico">
         <link rel="stylesheet" href="css/style.css">
         <title>Tac-Man Manager</title>
-        <div class="heading">
-            <h1>Tac-Man Manager</h1>
-            <img src="images/Tac-man.png" alt="Tac-man logo">
-        </div>
+        <div id="reactHeader">
+            <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+            <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+            <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+            <script type="text/babel" src="./Components/Header.js"></script>
+            <script type="text/babel">ReactDOM.render(<Header />, document.querySelector('#reactHeader'));</script>
+    </div>
     </head>
     <body>
         
@@ -25,7 +28,11 @@
     <script src="JavaScript/loginscript.js">
     </script>
     </body>
-    <footer>
-        &copy Ryan, Zane, Storm Conestoga College 2026
-    </footer>
+    <div id="reactFooter">
+        <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel" src="./Components/Footer.js"></script>
+        <script type="text/babel">ReactDOM.render(<Footer />, document.querySelector('#reactFooter'));</script>
+    </div>
 </html>
