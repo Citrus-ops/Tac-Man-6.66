@@ -31,7 +31,7 @@ input[type="time"] {
 }
 
 #addTask:focus, #taskDate:focus, #taskTime:focus {
-    border-color: #4CAF50;
+    border-color: #ffcc00;
     outline: none;
     box-shadow: 0 0 10px #ffd60a;
 }

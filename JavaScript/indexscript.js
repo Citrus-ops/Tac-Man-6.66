@@ -240,7 +240,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
 
         const now = new Date();
         const selected = new Date(`${dateInput.value}T${timeInput.value}`);
-        if (selected < now) return alert("Tasks cannot be set in the past.");
+        if (selected < now) return showError("Tasks cannot be set in the past.");
 
         textSpan.textContent = input.value;
         dateSpan.dataset.dateValue = dateInput.value;
