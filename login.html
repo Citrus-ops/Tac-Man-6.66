@@ -34,8 +34,14 @@
         
         <label type = "text" id="Welcome">Welcome to Tac-Man</label>
         <br><br>
-    <script src="JavaScript/loginscript.js">
-    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script>
+          const SUPABASE_URL = "YOUR_URL";
+          const SUPABASE_ANON_KEY = "YOUR_KEY";
+          const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        </script>
+    <script src="JavaScript/loginscript.js"></script>
     </body>
     <div id="reactFooter">
         <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
