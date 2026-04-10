@@ -1,3 +1,8 @@
+const userId = localStorage.getItem("user_id");
+if (!userId) {
+    location.href = "login.html";
+}
+
 // --- LIVE DATE/TIME ---
 function updateDateTime() {
     const now = new Date(); // Retrieves current date/time
