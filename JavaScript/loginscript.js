@@ -110,4 +110,17 @@ async function SignUp() {
     }
 
     showLoginModal("Sign up successful! You can now log in.");
+    clearLoginFields();
 }
+
+function clearLoginFields() {
+    document.getElementById("userName").value = "";
+    document.getElementById("userPass").value = "";
+}
+if (data.length === 1) {
+    clearLoginFields();
+    localStorage.setItem("user_id", data[0].id);
+    localStorage.setItem("username", data[0].username);
+    location.href = "index.html";
+}
+
