@@ -1,49 +1,71 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width = device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-        <link rel="stylesheet" href="css/style.css">
-        <title>Tac-Man Manager</title>
-        <div id="reactHeader">
-            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-            <script>
-                const SUPABASE_URL = "https://uoxuuvilenosauxbrjjq.supabase.co";
-                const SUPABASE_ANON_KEY = "sb_publishable_VzwijDlQR8TcBq3GWS4V1Q_K4WcE8Pn";
-                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            </script>
-            <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-            <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-            <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-            <script type="text/babel" src="./Components/Header.js"></script>
-            <script type="text/babel">ReactDOM.render(<Header />, document.querySelector('#reactHeader'));</script>
-    </div>
-    </head>
-    <body>
-        
-        <input type = "text" ID ="userName" placeholder = "Enter username">
-        <br> <br>
-        <input type = "password" ID ="userPass" placeholder = "Enter password">
-        <br><br>
-        
-        <button id ="BtnLogin">Sign in</button>
-        <br><br>
-        <button id ="BtnSignUp">Sign Up</button>
-        <br><br>
-        
-        <label type = "text" id="Welcome">Welcome to Tac-Man</label>
-        <br><br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Tac-Man Manager</title>
 
-    
-    <script src="JavaScript/loginscript.js"></script>
-    </body>
-    <div id="reactFooter">
-        <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-        <script type="text/babel" src="./Components/Footer.js"></script>
-        <script type="text/babel">ReactDOM.render(<Footer />, document.querySelector('#reactFooter'));</script>
+    <!-- React Header Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://uoxuuvilenosauxbrjjq.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_VzwijDlQR8TcBq3GWS4V1Q_K4WcE8Pn";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel" src="./Components/Header.js"></script>
+</head>
+
+<body>
+
+    <!-- React Header -->
+    <div id="reactHeader"></div>
+    <script type="text/babel">
+        ReactDOM.render(<Header />, document.querySelector('#reactHeader'));
+    </script>
+
+    <!-- ERROR MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <p id="loginModalText"></p>
+            <div class="modal-buttons">
+                <button id="closeLoginModal" class="confirm-btn">OK</button>
+            </div>
+        </div>
     </div>
+
+    <!-- LOGIN UI -->
+    <input type="text" id="userName" class="login-input" placeholder="Enter username">
+    <br><br>
+
+    <input type="password" id="userPass" class="login-input" placeholder="Enter password">
+    <br><br>
+
+    <button id="BtnLogin" class="login-btn">Sign in</button>
+    <br><br>
+
+    <button id="BtnSignUp" class="login-btn">Sign Up</button>
+    <br><br>
+
+    <label id="Welcome">Welcome to Tac-Man</label>
+    <br><br>
+
+    <!-- Login Script (loads AFTER modal + inputs) -->
+    <script src="JavaScript/loginscript.js"></script>
+
+    <!-- React Footer -->
+    <div id="reactFooter"></div>
+    <script type="text/babel" src="./Components/Footer.js"></script>
+    <script type="text/babel">
+        ReactDOM.render(<Footer />, document.querySelector('#reactFooter'));
+    </script>
+
+</body>
 </html>
 
