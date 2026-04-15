@@ -279,3 +279,57 @@ input:disabled {
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* LOGIN PAGE INPUTS */
+.login-input {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #ffd60a;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #000814;
+    color: #ffd60a;
+    box-shadow: 0 0 6px #ffd60a;
+    font-family: "Press Start 2P", monospace;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.login-input:focus {
+    border-color: #ffcc00;
+    outline: none;
+    box-shadow: 0 0 10px #ffd60a;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+    padding: 10px 16px;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ffcc00;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Press Start 2P", monospace;
+    margin-top: 15px;
+}
+
+.login-btn:hover {
+    background: #ffcc00bd;
+}
+
+/* LOGIN ERROR MESSAGE */
+.login-error {
+    background: #330000;
+    border: 2px solid #ff0000;
+    color: #ff4d4d;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: "Press Start 2P", monospace;
+    font-size: 14px;
+    margin: 15px auto;
+    width: 80%;
+    box-shadow: 0 0 10px #ff0000;
+    display: none; /* shown only when needed */
+}
