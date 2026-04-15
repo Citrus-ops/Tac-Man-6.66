@@ -1,62 +1,86 @@
+function showLoginModal(message) {
+    const modal = document.getElementById("loginModal");
+    const text = document.getElementById("loginModalText");
 
+    if (modal && text) {
+        text.textContent = message;
+        modal.style.display = "flex";
+    }
+}
 
+function closeLoginModal() {
+    const modal = document.getElementById("loginModal");
+    if (modal) modal.style.display = "none";
+}
 
-const BtnLogin = document.getElementById("BtnLogin");
-const BtnSignUp = document.getElementById("BtnSignUp");
-BtnSignUp.addEventListener("click", SignUp);
-BtnLogin.addEventListener("click", Login);
-const userList = [{username:"admin",password:"password"},{username:"admin2",password:"password2"}];
+// -----------------------------
+// Wait for DOM to load
+// -----------------------------
+window.onload = () => {
+    // Attach modal close button
+    const closeBtn = document.getElementById("closeLoginModal");
+    if (closeBtn) {
+        closeBtn.onclick = closeLoginModal;
+    }
 
+    // Attach login + signup buttons
+    const BtnLogin = document.getElementById("BtnLogin");
+    const BtnSignUp = document.getElementById("BtnSignUp");
+
+    if (BtnLogin) BtnLogin.addEventListener("click", Login);
+    if (BtnSignUp) BtnSignUp.addEventListener("click", SignUp);
+};
+
+// -----------------------------
+// LOGIN FUNCTION
+// -----------------------------
 async function Login() {
-    
     const userName = document.getElementById("userName").value.trim();
     const userPass = document.getElementById("userPass").value.trim();
 
     if (!userName || !userPass) {
-        alert("Please enter both fields");
+        showLoginModal("Please enter both fields");
         return;
     }
 
-    // Query Supabase for matching user
     console.log("Attempting login with:", userName, userPass);
 
     const { data, error } = await supabaseClient
-    .from("users")
-    .select("*")
-    .eq("username", userName)
-    .eq("password", userPass)
-    .limit(1);
+        .from("users")
+        .select("*")
+        .eq("username", userName)
+        .eq("password", userPass)
+        .limit(1);
 
     console.log("Supabase returned:", data, error);
 
     if (error) {
         console.error(error);
-        alert("Database error");
+        showLoginModal("Database error");
         return;
     }
 
     if (data.length === 1) {
-        // Save user ID so index.html knows who is logged in
         localStorage.setItem("user_id", data[0].id);
         localStorage.setItem("username", data[0].username);
-
         location.href = "index.html";
     } else {
-        alert("Invalid username or password");
+        showLoginModal("Invalid username or password");
     }
-    console.log("Login clicked");
 }
 
+// -----------------------------
+// SIGNUP FUNCTION
+// -----------------------------
 async function SignUp() {
-    const userName = document.getElementById("userName").value;
-    const userPass = document.getElementById("userPass").value;
+    const userName = document.getElementById("userName").value.trim();
+    const userPass = document.getElementById("userPass").value.trim();
 
     if (!userName || !userPass) {
-        alert("Please enter both fields");
+        showLoginModal("Please enter both fields");
         return;
     }
 
-    // Check if username already exists
     const { data: existing, error: checkError } = await supabaseClient
         .from("users")
         .select("id")
@@ -66,30 +90,24 @@ async function SignUp() {
 
     if (checkError) {
         console.error(checkError);
-        alert("Database error while checking username");
+        showLoginModal("Database error while checking username");
         return;
     }
 
     if (existing.length > 0) {
-        alert("User already exists!");
+        showLoginModal("User already exists!");
         return;
     }
 
-    // Insert new user
-    const { data, error } = await supabaseClient
+    const { error } = await supabaseClient
         .from("users")
-        .insert([
-            {
-                username: userName,
-                password: userPass
-            }
-        ]);
+        .insert([{ username: userName, password: userPass }]);
 
     if (error) {
         console.error(error);
-        alert("Error creating user");
+        showLoginModal("Error creating user");
         return;
     }
 
-    alert("Sign up successful! You can now log in.");
+    showLoginModal("Sign up successful! You can now log in.");
 }
