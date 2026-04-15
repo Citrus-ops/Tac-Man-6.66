@@ -110,12 +110,8 @@ async function SignUp() {
     }
 
     showLoginModal("Sign up successful! You can now log in.");
-    clearLoginFields();
 }
 
-function clearLoginFields() {
-    document.getElementById("userName").value = "";
-    document.getElementById("userPass").value = "";
-}
+
 
 
