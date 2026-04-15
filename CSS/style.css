@@ -8,6 +8,9 @@ body {
     box-shadow: 0 0 20px #52ae10;
     text-align: center;
     font-family: "Press Start 2P", monospace;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* --- INPUTS --- */
