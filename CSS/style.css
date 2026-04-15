@@ -10,7 +10,7 @@ body {
     border: 4px solid #52ae10;
 }
 html, body {
-    height: 100%
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -343,7 +343,6 @@ input:disabled {
 .page-frame {
     margin: 20px; /* space between border and screen */
     padding: 20px;
-    border: 4px solid #52ae10;
     box-shadow: 0 0 20px #52ae10;
     height: 100%;
     background-color: #000814;
