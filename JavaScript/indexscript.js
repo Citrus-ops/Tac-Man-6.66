@@ -1,11 +1,12 @@
-const userId = localStorage.getItem("user_id");
+const userId = Number(localStorage.getItem("user_id"));
+
 if (!userId) {
     location.href = "login.html";
 }
 
 // --- LIVE DATE/TIME ---
 function updateDateTime() {
-    const now = new Date(); // Retrieves current date/time
+    const now = new Date();
     const formatted = now.toLocaleString("en-CA", {
         weekday: "long",
         year: "numeric",
@@ -19,113 +20,66 @@ function updateDateTime() {
     document.getElementById("currentDateTime").textContent = formatted;
 }
 
-setInterval(updateDateTime, 1000); // Refreshes the clock every second
+setInterval(updateDateTime, 1000);
 updateDateTime();
 
-
-setInterval(updateAllGhosts, 2000); // Checks the urgency of tasks every x (2000 = 2 seconds)
+setInterval(updateAllGhosts, 2000);
 
 // --- URGENCY GHOST LOGIC ---
 function getGhostColor(taskDate, taskTime) {
     const now = new Date();
-    const due = new Date(`${taskDate}T${taskTime}`); // 
-    const diffDays = (due - now) / (1000 * 60 * 60 * 24); // Converts ms --> days (Java defaults to ms)
+    const due = new Date(`${taskDate}T${taskTime}`);
+    const diffDays = (due - now) / (1000 * 60 * 60 * 24);
 
-    // Returns ghost colour + glow depending on task urgency
     if (diffDays >= 7) return { image: "images/green_ghost.png", glow: "glow-green" };
     if (diffDays >= 4) return { image: "images/yellow_ghost.png", glow: "glow-yellow" };
     if (diffDays >= 1) return { image: "images/orange_ghost.png", glow: "glow-orange" };
-    return { image: "images/red_ghost.png", glow: "glow-red" }; // <1 Day or overdue
+    return { image: "images/red_ghost.png", glow: "glow-red" };
 }
 
 // --- ADD TASK ---
 BtnAddTask.addEventListener("click", addTask);
 
-function addTask() {
-    const input = document.getElementById("addTask"); 
+async function addTask() {
+    const input = document.getElementById("addTask");
     const newTask = input.value;
     const taskDate = document.getElementById("taskDate").value;
     const taskTime = document.getElementById("taskTime").value;
 
-    // Checks if required fields are empty
     if (!newTask.trim()) return showError("Task cannot be empty.");
     if (!taskDate) return showError("You must select a date before adding a task.");
     if (!taskTime) return showError("You must select a time before adding a task.");
 
-    // Checks if time/date selected have already past
     const now = new Date();
     const selected = new Date(`${taskDate}T${taskTime}`);
     if (selected < now) return showError("Tasks cannot be set in the past.");
 
-    const taskList = document.getElementById("taskList");
+    // --- SAVE TO SUPABASE ---
+    const { data, error } = await supabaseClient
+        .from("tasks")
+        .insert([
+            {
+                user_id: userId,
+                title: newTask,
+                date: taskDate,
+                time: taskTime,
+                completed: false,
+                
+            }
+        ]);
 
-    const li = document.createElement("li");
+    console.log("Insert result:", data, error);
 
-    const textSpan = document.createElement("span");
-    textSpan.className = "task-text";
-    textSpan.textContent = newTask;
+    if (error) {
+        console.error("Insert error:", error);
+        alert("Could not save task");
+        return;
+    }
 
-    const dateSpan = document.createElement("span");
-    dateSpan.className = "task-date";
-    dateSpan.dataset.dateValue = taskDate; // Stores raw date/time for calculations
-    dateSpan.dataset.timeValue = taskTime; //
-    dateSpan.textContent = selected.toLocaleString("en-CA", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit"
-    });
+    // Reload tasks from database
+    loadTasks();
 
-    const info = document.createElement("div"); // wraps task text + date
-    info.className = "task-info";
-    info.appendChild(textSpan);
-    info.appendChild(dateSpan);
-
-    const actions = document.createElement("div");
-    actions.className = "task-actions";
-
-    
-    const completedAt = new Date(); // Checks the completion time/date of a task, then displays it
-    const completedText = completedAt.toLocaleString("en-CA", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true
-    });
-    const completeBtn = document.createElement("button");
-    completeBtn.textContent = "Complete";
-    completeBtn.addEventListener("click", () => {
-        const completedList = document.getElementById("completedList");
-        li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
-        actions.remove(); // removes any action buttons once task is complete
-        dateSpan.textContent = "Completed on: " + completedText;
-        li.style.backgroundImage = "none"; // Removes the urgency ghost
-        completedList.appendChild(li); // Moves to completed section
-    });
-
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.classList.add("edit-btn");
-    editBtn.addEventListener("click", () => enterEditMode(li, textSpan, dateSpan, actions));
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", () => openDeleteModal(li));
-
-    actions.appendChild(completeBtn);
-    actions.appendChild(editBtn);
-    actions.appendChild(deleteBtn);
-
-    li.appendChild(info);
-    li.appendChild(actions);
-
-    taskList.appendChild(li);
-
-    applyUrgencyGhost(li, taskDate, taskTime);
-
+    // Reset inputs
     input.value = "";
     document.getElementById("taskDate").value = "";
     document.getElementById("taskTime").value = "";
@@ -146,7 +100,7 @@ function updateAllGhosts() {
 
     tasks.forEach(li => {
         const dateSpan = li.querySelector(".task-date");
-        if (!dateSpan) return; // Skips all completed tasks
+        if (!dateSpan) return;
 
         applyUrgencyGhost(li, dateSpan.dataset.dateValue, dateSpan.dataset.timeValue);
     });
@@ -160,7 +114,7 @@ function openDeleteModal(li) {
     const confirmBtn = document.getElementById("confirmDelete");
     const cancelBtn = document.getElementById("cancelDelete");
 
-    confirmBtn.replaceWith(confirmBtn.cloneNode(true)); // Replaces the button and removes previous click listeners
+    confirmBtn.replaceWith(confirmBtn.cloneNode(true));
     cancelBtn.replaceWith(cancelBtn.cloneNode(true));
 
     const newConfirm = document.getElementById("confirmDelete");
@@ -176,8 +130,7 @@ function openDeleteModal(li) {
     });
 }
 
-// Opens the error modal
-
+// --- ERROR MODAL ---
 function showError(message) {
     const modal = document.getElementById("errorModal");
     const msg = document.getElementById("errorMessage");
@@ -186,8 +139,7 @@ function showError(message) {
     msg.textContent = message;
     modal.style.display = "flex";
 
-    // Reset old listeners
-    closeBtn.replaceWith(closeBtn.cloneNode(true)); // Replaces the button and removes previous click listener
+    closeBtn.replaceWith(closeBtn.cloneNode(true));
     const newClose = document.getElementById("closeError");
 
     newClose.addEventListener("click", () => {
@@ -201,16 +153,15 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     document.getElementById("addTask").disabled = true;
     document.getElementById("taskDate").disabled = true;
     document.getElementById("taskTime").disabled = true;
-    
-    
-    const input = document.createElement("input"); // Allows task text to be edited
+
+    const input = document.createElement("input");
     input.value = textSpan.textContent;
 
-    const dateInput = document.createElement("input"); // Allows date to be edited
+    const dateInput = document.createElement("input");
     dateInput.type = "date";
     dateInput.value = dateSpan.dataset.dateValue;
 
-    const timeInput = document.createElement("input"); // Allows time to be edited
+    const timeInput = document.createElement("input");
     timeInput.type = "time";
     timeInput.value = dateSpan.dataset.timeValue;
 
@@ -269,15 +220,13 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     });
 }
 
-
-// EXIT EDIT MODE //
+// EXIT EDIT MODE
 function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions) {
     document.getElementById("BtnAddTask").disabled = false;
     document.getElementById("addTask").disabled = false;
     document.getElementById("taskDate").disabled = false;
     document.getElementById("taskTime").disabled = false;
-    
-    
+
     input.remove();
     dateInput.remove();
     timeInput.remove();
@@ -287,3 +236,90 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     dateSpan.style.display = "";
     actions.style.display = "flex";
 }
+
+// --- LOAD TASKS FROM SUPABASE ---
+async function loadTasks() {
+    const userId = Number(localStorage.getItem("user_id"));
+
+    const { data, error } = await supabaseClient
+        .from("tasks")
+        .select("*")
+        .eq("user_id", userId)
+        .order("id", { ascending: true });
+
+    console.log("Loaded tasks:", data, error);
+
+    if (error) return;
+
+    const taskList = document.getElementById("taskList");
+    const completedList = document.getElementById("completedList");
+
+    taskList.innerHTML = "";
+    completedList.innerHTML = "";
+
+    data.forEach(task => {
+        const li = document.createElement("li");
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "task-text";
+        textSpan.textContent = task.title;
+
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "task-date";
+        dateSpan.dataset.dateValue = task.date;
+        dateSpan.dataset.timeValue = task.time;
+
+        const selected = new Date(`${task.date}T${task.time}`);
+        dateSpan.textContent = selected.toLocaleString("en-CA", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        });
+
+        const info = document.createElement("div");
+        info.className = "task-info";
+        info.appendChild(textSpan);
+        info.appendChild(dateSpan);
+
+        const actions = document.createElement("div");
+        actions.className = "task-actions";
+
+        const completeBtn = document.createElement("button");
+        completeBtn.textContent = "Complete";
+        completeBtn.addEventListener("click", () => {
+            li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
+            actions.remove();
+            dateSpan.textContent = "Completed";
+            li.style.backgroundImage = "none";
+            completedList.appendChild(li);
+        });
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.classList.add("edit-btn");
+        editBtn.addEventListener("click", () => enterEditMode(li, textSpan, dateSpan, actions));
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", () => openDeleteModal(li));
+
+        actions.appendChild(completeBtn);
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+        li.appendChild(info);
+        li.appendChild(actions);
+
+        if (!task.completed) {
+            taskList.appendChild(li);
+            applyUrgencyGhost(li, task.date, task.time);
+        } else {
+            completedList.appendChild(li);
+        }
+    });
+}
+
+// --- LOAD TASKS ON PAGE LOAD ---
+loadTasks();
