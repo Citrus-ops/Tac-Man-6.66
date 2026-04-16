@@ -444,7 +444,7 @@ input:disabled {
 
 /* Recurrence drop down */
 
-.recurrence-select {
+.recurrence {
     background-color: black;
     color: #00eaff;
     border: 2px solid #00eaff;
@@ -457,12 +457,12 @@ input:disabled {
 }
 
 /* Hover glow */
-.recurrence-select:hover {
+.recurrence:hover {
     box-shadow: 0 0 12px #00eaff;
 }
 
 /* Dropdown options */
-.recurrence-select option {
+.recurrence option {
     background-color: black;
     color: #00eaff;
 }
