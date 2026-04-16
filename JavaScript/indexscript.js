@@ -470,7 +470,11 @@ async function loadTasks() {
     });
 }
 async function createNextRecurringTask(li, recurrence) {
-    const title = li.querySelector(".task-text").textContent;
+     const textSpan = li.querySelector(".task-text");
+    const title = [...textSpan.childNodes]
+        .filter(n => n.nodeType === Node.TEXT_NODE)
+        .map(n => n.textContent.trim())
+        .join(" ");
     const date = li.querySelector(".task-date").dataset.dateValue;
     const time = li.querySelector(".task-date").dataset.timeValue;
     const priority = li.dataset.priority === "true";
