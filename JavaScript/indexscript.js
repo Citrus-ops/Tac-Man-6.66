@@ -448,6 +448,7 @@ async function loadTasks() {
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
+        deleteBtn.classList.add("delete-btn"); 
         deleteBtn.addEventListener("click", () => openDeleteModal(li));
 
         li.appendChild(info);
