@@ -92,10 +92,7 @@ function applyUrgencyGhost(li, taskDate, taskTime) {
     const ghost = getGhostColor(taskDate, taskTime);
 
     li.style.backgroundImage = `url(${ghost.image})`;
-    li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
-    li.classList.add(ghost.glow);
 }
-
 // --- UPDATE ALL GHOSTS ---
 function updateAllGhosts() {
     const tasks = document.querySelectorAll("#taskList li");
@@ -290,6 +287,13 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     dateSpan.style.display = "";
     actions.style.display = "flex";
 }
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to log out?")) {
+        localStorage.removeItem("user_id");
+        location.href = "login.html";
+    }       
+});
 
 // --- LOAD TASKS FROM SUPABASE ---
 async function loadTasks() {
