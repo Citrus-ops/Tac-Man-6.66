@@ -27,6 +27,14 @@
     height: auto;
 }
 
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px; /* space between logout button and header box */
+    margin-bottom: 20px; /* space below the header area */
+}
+
 body {
     background-color: #000814;
     background-image:
@@ -432,9 +440,6 @@ input:disabled {
     cursor: pointer;
     font-size: 16px;
     font-family: "Press Start 2P", monospace;
-    margin-top: 15px;
-    margin-left: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
