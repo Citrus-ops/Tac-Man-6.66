@@ -176,6 +176,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     document.getElementById("taskDate").disabled = true;
     document.getElementById("taskTime").disabled = true;
     document.getElementById("recurrence").disabled = true;
+    document.getElementById("priorityCheckbox").disabled = true;
 
     const input = document.createElement("input");
     input.type = "text";
@@ -304,6 +305,7 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     document.getElementById("taskDate").disabled = false;
     document.getElementById("taskTime").disabled = false;
     document.getElementById("recurrence").disabled = false;
+    document.getElementById("priorityCheckbox").disabled = false;
 
     input.remove();
     dateInput.remove();

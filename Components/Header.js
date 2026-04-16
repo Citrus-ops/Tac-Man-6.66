@@ -3,7 +3,7 @@ function Header() {
     const hideLogout = path.includes("login");
 
     return (
-        <div className="heading">
+        <div className="header-wrapper">
             {!hideLogout && (
                 <button 
                     className="logout-btn"
@@ -16,8 +16,10 @@ function Header() {
                 </button>
             )}
 
-            <h1>Tac-Man Manager</h1>
-            <img src="images/Tac-man.png" alt="Tac-man logo" />
-        </div>
+    <div className="heading">
+        <h1>Tac-Man Manager</h1>
+        <img src="images/Tac-man.png" alt="Tac-man logo" />
+    </div>
+</div>
     );
 }
