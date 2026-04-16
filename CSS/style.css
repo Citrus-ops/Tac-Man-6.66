@@ -2,6 +2,31 @@
     position: relative;
 }
 
+/* --- HEADER --- */
+.heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* space between text and logo */
+    padding: 10px 20px;
+    margin: 20px auto;
+    border: 4px solid #52ae10;
+    box-shadow: 0 0 20px #52ae10;
+    border-radius: 8px;
+    border-radius: 4px;
+    background-image:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url("../images/background2.jpg");
+    background-size: cover;
+    background-position: center;
+    max-width: 800px; /* keeps it from stretching too wide */
+}
+
+.heading img {
+    width: 80px;
+    height: auto;
+}
+
 body {
     background-color: #000814;
     background-image:
