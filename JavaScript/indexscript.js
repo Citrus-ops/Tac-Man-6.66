@@ -1,4 +1,5 @@
 const userId = Number(localStorage.getItem("user_id"));
+// --- LOAD TASKS ON PAGE LOAD ---
 loadTasks();
 if (!userId) {
     location.href = "login.html";
@@ -290,12 +291,6 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     }
 }
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-    if (confirm("Are you sure you want to log out?")) {
-        localStorage.removeItem("user_id");
-        location.href = "login.html";
-    }       
-});
 
 // --- LOAD TASKS FROM SUPABASE ---
 async function loadTasks() {
@@ -362,28 +357,36 @@ async function loadTasks() {
         const actions = document.createElement("div");
         actions.className = "task-actions";
 
-        const completeBtn = document.createElement("button");
+     const completeBtn = document.createElement("button");
         completeBtn.textContent = "Complete";
         completeBtn.classList.add("complete-btn");
+
         completeBtn.addEventListener("click", async () => {
+            // 🔊 Play sound immediately
+            completeSound.currentTime = 0;
+            completeSound.play();
+
             const taskId = li.dataset.id;
-                await supabaseClient
+
+            // Mark task as completed in Supabase
+            await supabaseClient
                 .from("tasks")
                 .update({ completed: true })
                 .eq("id", taskId);
-            const recurrence = li.dataset.recurrence;
 
-        if (recurrence && recurrence !== "none") {
-            await createNextRecurringTask(li, recurrence);
+            // Handle recurrence
+            const recurrence = li.dataset.recurrence;
+            if (recurrence && recurrence !== "none") {
+                await createNextRecurringTask(li, recurrence);
             }
 
-        li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
-        actions.remove();
-        dateSpan.textContent = "Completed";
-        li.style.backgroundImage = "none";
-        completedList.appendChild(li);
-});
-
+            // Move task visually
+            li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
+            actions.remove();
+            dateSpan.textContent = "Completed";
+            li.style.backgroundImage = "none";
+            completedList.appendChild(li);
+        });
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
@@ -402,14 +405,12 @@ async function loadTasks() {
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
         li.appendChild(actions);
-
         taskList.appendChild(li);
         applyUrgencyGhost(li, task.date, task.time);
     } else {
         // Completed tasks get no buttons
         completedList.appendChild(li);
     }
-
     });
 }
 async function createNextRecurringTask(li, recurrence) {
@@ -448,13 +449,16 @@ async function createNextRecurringTask(li, recurrence) {
 
 const completeSound = new Audio("images/02. Start Music.mp3");
 
-document.addEventListener("click", function(e) {
+<<<<<<< HEAD
+document.addEventListener("click", async function(e) {
     if (e.target.classList.contains("complete-btn")) {
         completeSound.currentTime = 0;
         completeSound.play();
     }
 });
+=======
+
+>>>>>>> acf3c6b017af831da3ba53b9580d4c9063f20077
 
 
-// --- LOAD TASKS ON PAGE LOAD ---
-loadTasks();
+
