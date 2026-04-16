@@ -160,8 +160,8 @@ input[type="time"] {
 .priority-glow {
     box-shadow:
         0 0 10px #ed1c24,
-        0 0 20px #ed1c24,
-        0 0 30px #ed1c24 !important;
+        0 0 20px #ed1c24;
+        
 }
 
 .priority-icon {
@@ -205,43 +205,43 @@ input[type="time"] {
 
 /* --- COMPLETE BUTTON --- */
 .task-actions .complete-btn {
-    background: #52ae10 !important;
-    border-color: #52ae10 !important;
-    color: black !important;
-    box-shadow: 0 0 8px #52ae10;
+    background: #52ae10 
+    border-color: #52ae10;
+    color: black;
+    box-shadow: 0 0 8px;
 }
 
 .task-actions .complete-btn:hover {
-    background: #52ae10 !important;
-    color: black !important;
+    background: #52ae10;
+    color: black;
     box-shadow: 0 0 12px #52ae10;
 }
 
 /* --- EDIT BUTTON --- */
 .task-actions .edit-btn {
-    background: #ffd60a !important;
-    border-color: #ffd60a !important;
-    color: black !important;
+    background: #ffd60a;
+    border-color: #ffd60a;
+    color: black;
     box-shadow: 0 0 8px #ffd60a;
 }
 
 .task-actions .edit-btn:hover {
-    background: #ffd60a !important;
-    color: black !important;
+    background: #ffd60a;
+    color: black;
     box-shadow: 0 0 12px #ffd60a;
 }
 
 /* --- DELETE BUTTON --- */
 .task-actions .delete-btn {
-    background: #ed1c24 !important;
-    border-color: #ed1c24 !important;
-    color: black !important;
+    background: #ed1c24;
+    border-color: #ed1c24;
+    color: black;
     box-shadow: 0 0 8px #ed1c24;
 }
 
 .task-actions .delete-btn:hover {
-    background: #ed1c24 !important;
-    color: black !important;
+    background: #ed1c24;
+    color: black;
     box-shadow: 0 0 12px #ed1c24;
 }
 
@@ -260,9 +260,9 @@ input[type="time"] {
     text-align: center;
 }
 .save-btn {
-    background: #52ae10 !important;
-    border: 2px solid #52ae10 !important;
-    color: black !important;
+    background: #52ae10;
+    border: 2px solid #52ae10;
+    color: black;
     box-shadow: 0 0 8px #52ae10;
     padding: 10px 16px;
     border-radius: 6px;
@@ -272,15 +272,15 @@ input[type="time"] {
 }
 
 .save-btn:hover {
-    background: #52ae10 !important;
-    color: black !important;
+    background: #52ae10;
+    color: black;
     box-shadow: 0 0 12px #52ae10;
 }
 
 .cancel-btn {
-    background: #ed1c24 !important;
-    border: 2px solid #ed1c24 !important;
-    color: black !important;
+    background: #ed1c24;
+    border: 2px solid #ed1c24;
+    color: black;
     box-shadow: 0 0 8px #ed1c24;
     padding: 10px 16px;
     border-radius: 6px;
@@ -290,15 +290,15 @@ input[type="time"] {
 }
 
 .cancel-btn:hover {
-    background: #ed1c24 !important;
-    color: black !important;
+    background: #ed1c24;
+    color: black;
     box-shadow: 0 0 12px #ed1c24;
 }
 
 .confirm-btn {
-    background: #52ae10 !important;
-    border: 2px solid #52ae10 !important;
-    color: black !important;
+    background: #52ae10;
+    border: 2px solid #52ae10;
+    color: black;
     box-shadow: 0 0 8px #52ae10;
     padding: 10px 16px;
     border-radius: 6px;
@@ -308,8 +308,8 @@ input[type="time"] {
 }
 
 .confirm-btn:hover {
-    background: #52ae10 !important;
-    color: black !important;
+    background: #52ae10;
+    color: black;
     box-shadow: 0 0 12px #52ae10;
 }
 
@@ -516,8 +516,7 @@ input:disabled {
 .priority-glow {
     box-shadow:
         0 0 10px #ed1c24,
-        0 0 20px #ed1c24,
-        0 0 30px #ed1c24 !important;
+        0 0 20px #ed1c24;
 }
 
 
@@ -544,7 +543,7 @@ input:disabled {
 
 .recurrence {
     background-color: black;
-    color: #00eaff !important;
+    color: #00eaff;
     border: 2px solid #00eaff;
     padding: 8px 12px;
     border-radius: 6px;
