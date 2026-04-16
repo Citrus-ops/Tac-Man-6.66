@@ -12,6 +12,7 @@ body {
     text-align: center;
     font-family: "Press Start 2P", monospace;
     padding: 20px;
+    min-height: 100%
     
 }
 html {
