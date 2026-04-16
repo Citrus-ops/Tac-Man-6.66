@@ -21,6 +21,7 @@
         url("../images/background2.jpg");
     background-size: cover;
     background-position: center;
+    flex-grow: 1;
     max-width: 800px; /* keeps it from stretching too wide */
 }
 
