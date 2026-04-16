@@ -364,7 +364,7 @@ async function loadTasks() {
             dateSpan.textContent = "Completed";
 
             // Replace ghost with Tac-Man
-            li.style.backgroundImage = "url('images/tacman.png')";
+            li.style.backgroundImage = "url('images/Tac-man.png')";
             li.style.backgroundSize = "contain";
             li.style.backgroundRepeat = "no-repeat";
             li.style.backgroundPosition = "left center";
