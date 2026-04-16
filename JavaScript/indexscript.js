@@ -1,5 +1,5 @@
 const userId = Number(localStorage.getItem("user_id"));
-
+loadTasks();
 if (!userId) {
     location.href = "login.html";
 }
