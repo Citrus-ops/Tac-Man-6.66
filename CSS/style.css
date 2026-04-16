@@ -535,3 +535,8 @@ input:disabled {
     background-color: black;
     color: #00eaff;
 }
+
+.priority-container input[disabled] + .priority-checkmark {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
