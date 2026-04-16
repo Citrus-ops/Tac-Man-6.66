@@ -197,6 +197,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
 
     const recurrenceSelect = document.createElement("select");
     recurrenceSelect.id = "editRecurrence";
+    recurrenceSelect.classList.add("recurrence");
 
     ["none", "weekly", "monthly"].forEach(optionValue => {
         const opt = document.createElement("option");
