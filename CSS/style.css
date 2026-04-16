@@ -147,6 +147,18 @@ input[type="time"] {
 }
 
 /* --- EDIT MODE --- */
+.task-edit-text {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #ffd60a;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #000814;
+    color: #ffd60a;
+    box-shadow: 0 0 6px #ffd60a;
+    font-family: "Press Start 2P", monospace;
+    text-align: center;
+}
 .save-btn { 
     background: #2196F3;
     color: white;
