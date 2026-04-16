@@ -290,12 +290,6 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     }
 }
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-    if (confirm("Are you sure you want to log out?")) {
-        localStorage.removeItem("user_id");
-        location.href = "login.html";
-    }       
-});
 
 // --- LOAD TASKS FROM SUPABASE ---
 async function loadTasks() {
