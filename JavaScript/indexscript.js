@@ -357,11 +357,18 @@ async function loadTasks() {
 
         const completeBtn = document.createElement("button");
         completeBtn.textContent = "Complete";
+        completeBtn.classList.add("complete-btn");
         completeBtn.addEventListener("click", () => {
             li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
             actions.remove();
             dateSpan.textContent = "Completed";
-            li.style.backgroundImage = "none";
+
+            // Replace ghost with Tac-Man
+            li.style.backgroundImage = "url('images/tacman.png')";
+            li.style.backgroundSize = "contain";
+            li.style.backgroundRepeat = "no-repeat";
+            li.style.backgroundPosition = "left center";
+
             completedList.appendChild(li);
         });
 
