@@ -413,9 +413,8 @@ input:disabled {
 .priority-container {
     display: flex;
     align-items: center;
-    justify-content: center;   /* centers horizontally */
+    
     gap: 8px;
-    width: 100%;               /* makes centering work */
     margin-top: 10px;
 }
 .priority-checkmark {
