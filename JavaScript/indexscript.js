@@ -175,6 +175,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     document.getElementById("addTask").disabled = true;
     document.getElementById("taskDate").disabled = true;
     document.getElementById("taskTime").disabled = true;
+    document.getElementById("recurrence").disabled = true;
 
     const input = document.createElement("input");
     input.type = "text";
@@ -189,10 +190,22 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     timeInput.type = "time";
     timeInput.value = dateSpan.dataset.timeValue;
 
-     const priorityInput = document.createElement("input");
+    const priorityInput = document.createElement("input");
     priorityInput.type = "checkbox";
     priorityInput.id = "editPriorityCheckbox";
     priorityInput.checked = li.dataset.priority === "true";
+
+    const recurrenceSelect = document.createElement("select");
+    recurrenceSelect.id = "editRecurrence";
+    recurrenceSelect.classList.add("recurrence");
+
+    ["none", "weekly", "monthly"].forEach(optionValue => {
+        const opt = document.createElement("option");
+        opt.value = optionValue;
+        opt.textContent = optionValue.charAt(0).toUpperCase() + optionValue.slice(1);
+        recurrenceSelect.appendChild(opt);
+    });
+    recurrenceSelect.value = li.dataset.recurrence || "none";
 
     const priorityLabel = document.createElement("label");
     priorityLabel.className = "priority-label";
@@ -220,6 +233,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     info.insertBefore(input, textSpan);
     info.insertBefore(dateInput, textSpan);
     info.insertBefore(timeInput, textSpan);
+    info.insertBefore(recurrenceSelect, textSpan);
 
     li.appendChild(priorityLabel);
     li.appendChild(editActions);
@@ -262,7 +276,8 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
         title: input.value,
         date: dateInput.value,
         time: timeInput.value,
-        priority: priorityInput.checked
+        priority: priorityInput.checked,
+        recurrence: recurrenceSelect.value
     })
     .eq("id", li.dataset.id);
 
@@ -282,6 +297,7 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     document.getElementById("addTask").disabled = false;
     document.getElementById("taskDate").disabled = false;
     document.getElementById("taskTime").disabled = false;
+    document.getElementById("recurrence").disabled = false;
 
     input.remove();
     dateInput.remove();
@@ -356,6 +372,16 @@ async function loadTasks() {
         dateSpan.className = "task-date";
         dateSpan.dataset.dateValue = task.date;
         dateSpan.dataset.timeValue = task.time;
+        const recurrenceSpan = document.createElement("span");
+        recurrenceSpan.className = "task-recurrence";
+
+        if (task.recurrence && task.recurrence !== "none") {
+            recurrenceSpan.textContent = 
+            task.recurrence === "weekly" ? "↻ Weekly" :
+            task.recurrence === "monthly" ? "↻ Monthly" :"";
+        } else {
+        recurrenceSpan.textContent = "";
+        }
 
         const selected = new Date(`${task.date}T${task.time}`);
         dateSpan.textContent = selected.toLocaleString("en-CA", {
@@ -370,6 +396,7 @@ async function loadTasks() {
         info.className = "task-info";
         info.appendChild(textSpan);
         info.appendChild(dateSpan);
+        info.appendChild(recurrenceSpan);
 
         const actions = document.createElement("div");
         actions.className = "task-actions";

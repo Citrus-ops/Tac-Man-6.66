@@ -404,5 +404,86 @@ input:disabled {
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(255, 255, 0, 1);
 }
-    
 
+
+/* CHECKBOX */
+/* Hide default checkbox */
+.priority-container input {
+    display: none;
+}
+
+/* Custom neon box */
+
+.priority-checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ed1c24;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    background-color: black;
+    box-shadow: 0 0 10px #ed1c24;
+    cursor: pointer;
+    top: 3px;
+    left: 3px;
+}
+
+
+
+
+.priority-glow {
+    box-shadow:
+        0 0 10px #ed1c24,
+        0 0 20px #ed1c24,
+        0 0 30px #ed1c24 !important;
+}
+
+
+
+
+
+
+/* Checkmark when checked */
+.priority-container input:checked + .priority-checkmark::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border: solid #ed1c24;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px #ed1c24;
+}
+
+/* Hover glow */
+.priority-container:hover .priority-checkmark {
+    box-shadow: 0 0 10px #ed1c24;
+}
+
+/* Recurrence drop down */
+
+.recurrence {
+    background-color: black;
+    color: #00eaff;
+    border: 2px solid #00eaff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00eaff;
+    outline: none;
+}
+
+/* Hover glow */
+.recurrence:hover {
+    box-shadow: 0 0 12px #00eaff;
+}
+
+/* Dropdown options */
+.recurrence option {
+    background-color: black;
+    color: #00eaff;
+}
