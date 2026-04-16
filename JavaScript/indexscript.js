@@ -363,31 +363,35 @@ async function loadTasks() {
         actions.className = "task-actions";
 
      const completeBtn = document.createElement("button");
-completeBtn.textContent = "Complete";
-completeBtn.classList.add("complete-btn");
+        completeBtn.textContent = "Complete";
+        completeBtn.classList.add("complete-btn");
 
-completeBtn.addEventListener("click", async () => {
-    // 🔊 Play sound immediately before DOM changes
-    completeSound.currentTime = 0;
-    completeSound.play();
+        completeBtn.addEventListener("click", async () => {
+            // 🔊 Play sound immediately
+            completeSound.currentTime = 0;
+            completeSound.play();
 
-    const taskId = li.dataset.id;
-    await supabaseClient
-        .from("tasks")
-        .update({ completed: true })
-        .eq("id", taskId);
+            const taskId = li.dataset.id;
 
-    const recurrence = li.dataset.recurrence;
-    if (recurrence && recurrence !== "none") {
-        await createNextRecurringTask(li, recurrence);
-    }
+            // Mark task as completed in Supabase
+            await supabaseClient
+                .from("tasks")
+                .update({ completed: true })
+                .eq("id", taskId);
 
-    li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
-    actions.remove();
-    dateSpan.textContent = "Completed";
-    li.style.backgroundImage = "none";
-    completedList.appendChild(li);
-});
+            // Handle recurrence
+            const recurrence = li.dataset.recurrence;
+            if (recurrence && recurrence !== "none") {
+                await createNextRecurringTask(li, recurrence);
+            }
+
+            // Move task visually
+            li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
+            actions.remove();
+            dateSpan.textContent = "Completed";
+            li.style.backgroundImage = "none";
+            completedList.appendChild(li);
+        });
 
 
         const editBtn = document.createElement("button");
