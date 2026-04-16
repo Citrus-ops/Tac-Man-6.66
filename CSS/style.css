@@ -33,10 +33,10 @@
 .header-wrapper {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 20px; /* space between logout button and header box */
-    margin-bottom: 20px; /* space below the header area */
     width: 100%;
+    padding: 0 20px;      /* equal spacing from page-frame border */
+    gap: 20px;            /* equal spacing between logout and header */
+    box-sizing: border-box;
 }
 
 body {
