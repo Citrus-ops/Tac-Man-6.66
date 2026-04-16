@@ -431,7 +431,9 @@ async function loadTasks() {
             }
 
             // Move task visually
-            actions.remove();
+            const editBtn = actions.querySelector(".edit-btn");
+            if (editBtn) editBtn.remove();
+            
             dateSpan.textContent = "Completed";
             li.style.backgroundImage = "none";
 
@@ -439,6 +441,10 @@ async function loadTasks() {
             const icon = li.querySelector(".priority-icon");
             if (icon) icon.remove();
             completedList.appendChild(li);
+        });
+        
+        deleteBtn.addEventListener("click", () => {
+            openDeleteModal(li);
         });
 
         const editBtn = document.createElement("button");
