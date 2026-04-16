@@ -109,7 +109,7 @@ function updateAllGhosts() {
 }
 
 // --- DELETE MODAL ---
-function openDeleteModal(li) {
+async function openDeleteModal(li) {
     const modal = document.getElementById("deleteModal");
     modal.style.display = "flex";
 
@@ -122,8 +122,25 @@ function openDeleteModal(li) {
     const newConfirm = document.getElementById("confirmDelete");
     const newCancel = document.getElementById("cancelDelete");
 
-    newConfirm.addEventListener("click", () => {
+    newConfirm.addEventListener("click", async () => {
+    const taskId = li.dataset.id;
+
+        // --- DELETE FROM SUPABASE ---
+        const { error } = await supabaseClient
+            .from("tasks")
+            .delete()
+            .eq("id", taskId);
+
+        if (error) {
+            console.error("Delete error:", error);
+            alert("Could not delete task");
+            return;
+        }
+        
         li.remove();
+        // Reload tasks to stay in sync
+        loadTasks();
+    
         modal.style.display = "none";
     });
 
