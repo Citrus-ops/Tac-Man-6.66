@@ -290,16 +290,16 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
 
     await loadTasks();
 
-        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel);
+        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel, recurrenceSelect);
     });
 
     cancelBtn.addEventListener("click", () => {
-        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel);
+        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel, recurrenceSelect);
     });
 }
 
 // EXIT EDIT MODE
-function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel) {
+async function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel, recurrence) {
     document.getElementById("BtnAddTask").disabled = false;
     document.getElementById("addTask").disabled = false;
     document.getElementById("taskDate").disabled = false;
@@ -312,6 +312,7 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     timeInput.remove();
     editActions.remove();
     priorityLabel.remove();
+    recurrence.remove();
 
     textSpan.style.display = "";
     dateSpan.style.display = "";
