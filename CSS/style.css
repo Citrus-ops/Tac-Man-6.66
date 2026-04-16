@@ -25,6 +25,16 @@ html, body {
     margin: 0;
     padding: 0;
 }
+.page-frame {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 4px solid #52ae10;
+    box-shadow: 0 0 20px #52ae10;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    min-height: 100vh;
+}
 
 /* --- INPUTS --- */
 input[type="date"],
