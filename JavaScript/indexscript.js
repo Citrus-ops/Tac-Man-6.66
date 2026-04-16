@@ -176,7 +176,6 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     document.getElementById("taskDate").disabled = true;
     document.getElementById("taskTime").disabled = true;
     document.getElementById("recurrence").disabled = true;
-    document.getElementById("priority".disabled = true;
 
     const input = document.createElement("input");
     input.type = "text";
@@ -305,7 +304,6 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     document.getElementById("taskDate").disabled = false;
     document.getElementById("taskTime").disabled = false;
     document.getElementById("recurrence").disabled = false;
-    document.getElementById("priority".disabled = false;
 
     input.remove();
     dateInput.remove();
@@ -433,9 +431,7 @@ async function loadTasks() {
             }
 
             // Move task visually
-            const editBtn = actions.querySelector(".edit-btn");
-            if (editBtn) editBtn.remove();
-            
+            actions.remove();
             dateSpan.textContent = "Completed";
             li.style.backgroundImage = "none";
 
@@ -443,10 +439,6 @@ async function loadTasks() {
             const icon = li.querySelector(".priority-icon");
             if (icon) icon.remove();
             completedList.appendChild(li);
-        });
-        
-        deleteBtn.addEventListener("click", () => {
-            openDeleteModal(li);
         });
 
         const editBtn = document.createElement("button");
