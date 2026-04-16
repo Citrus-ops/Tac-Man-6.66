@@ -275,7 +275,8 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
         title: input.value,
         date: dateInput.value,
         time: timeInput.value,
-        priority: priorityInput.checked
+        priority: priorityInput.checked,
+        recurrence: recurrenceSelect.value
     })
     .eq("id", li.dataset.id);
 
