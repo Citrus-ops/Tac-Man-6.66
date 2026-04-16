@@ -368,7 +368,7 @@ async function loadTasks() {
 
     if (task.priority) {
         const icon = document.createElement("img");
-        icon.src = "images/red_exclamation_mark.png"; // your red exclamation mark
+        icon.src = "images/red_exclamation_mark.png";
         icon.alt = "Priority";
         icon.className = "priority-icon";
         icon.style.width = "64px";
