@@ -5,7 +5,7 @@
 /* --- HEADER --- */
 .heading {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 20px; /* space between text and logo */
     padding: 10px 20px;
@@ -423,10 +423,6 @@ input:disabled {
 /* LOGOUT BUTTON */
 
 .logout-btn {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    
     padding: 10px 16px;
     background: #ffcc00;
     color: black;
@@ -437,7 +433,7 @@ input:disabled {
     font-size: 16px;
     font-family: "Press Start 2P", monospace;
     margin-top: 15px;
-
+    margin-left: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
