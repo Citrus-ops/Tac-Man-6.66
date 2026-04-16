@@ -1,3 +1,7 @@
+.app-header {
+    position: relative;
+}
+
 body {
     background-color: #000814;
     background-image:
@@ -363,4 +367,32 @@ input:disabled {
     box-shadow: 0 0 10px #ff0000;
     display: none; /* shown only when needed */
 }
+
+/* LOGOUT BUTTON */
+
+.logout-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    
+    padding: 10px 16px;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ffcc00;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Press Start 2P", monospace;
+    margin-top: 15px;
+
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 1);
+}
+    
 
