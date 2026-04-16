@@ -1,5 +1,5 @@
 const userId = Number(localStorage.getItem("user_id"));
-
+loadTasks();
 if (!userId) {
     location.href = "login.html";
 }
@@ -46,7 +46,7 @@ async function addTask() {
     const taskDate = document.getElementById("taskDate").value;
     const taskTime = document.getElementById("taskTime").value;
     const isPriority = document.getElementById("priorityCheckbox").checked;
-
+    const recurrence = document.getElementById("recurrence").value;
     if (!newTask.trim()) return showError("Task cannot be empty.");
     if (!taskDate) return showError("You must select a date before adding a task.");
     if (!taskTime) return showError("You must select a time before adding a task.");
@@ -65,8 +65,8 @@ async function addTask() {
                 date: taskDate,
                 time: taskTime,
                 completed: false,
-                priority: isPriority
-                
+                priority: isPriority,
+                recurrence: recurrence
             }
         ]);
 
@@ -285,7 +285,9 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
 
     textSpan.style.display = "";
     dateSpan.style.display = "";
-    actions.style.display = "flex";
+    if (actions) {
+        actions.style.display = "flex";
+    }
 }
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
@@ -329,6 +331,7 @@ async function loadTasks() {
         const li = document.createElement("li");
         li.dataset.id = task.id; 
         li.dataset.priority = task.priority;
+        li.dataset.recurrence = task.recurrence;
     if (task.priority) {
             li.classList.add("priority-glow");
         }
@@ -362,19 +365,25 @@ async function loadTasks() {
         const completeBtn = document.createElement("button");
         completeBtn.textContent = "Complete";
         completeBtn.classList.add("complete-btn");
-        completeBtn.addEventListener("click", () => {
-            li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
-            actions.remove();
-            dateSpan.textContent = "Completed";
+        completeBtn.addEventListener("click", async () => {
+            const taskId = li.dataset.id;
+                await supabaseClient
+                .from("tasks")
+                .update({ completed: true })
+                .eq("id", taskId);
+            const recurrence = li.dataset.recurrence;
 
-            // Replace ghost with Tac-Man
-            li.style.backgroundImage = "url('images/Tac-man.png')";
-            li.style.backgroundSize = "contain";
-            li.style.backgroundRepeat = "no-repeat";
-            li.style.backgroundPosition = "left center";
+        if (recurrence && recurrence !== "none") {
+            await createNextRecurringTask(li, recurrence);
+            }
 
-            completedList.appendChild(li);
-        });
+        li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
+        actions.remove();
+        dateSpan.textContent = "Completed";
+        li.style.backgroundImage = "none";
+        completedList.appendChild(li);
+});
+
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
@@ -385,22 +394,58 @@ async function loadTasks() {
         deleteBtn.textContent = "Delete";
         deleteBtn.addEventListener("click", () => openDeleteModal(li));
 
+        li.appendChild(info);
+
+        if (!task.completed) {
+        // Only add buttons for active tasks
         actions.appendChild(completeBtn);
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
-
-        li.appendChild(info);
         li.appendChild(actions);
 
-        if (!task.completed) {
-            taskList.appendChild(li);
-            applyUrgencyGhost(li, task.date, task.time);
-        } else {
-            completedList.appendChild(li);
-        }
-        
+        taskList.appendChild(li);
+        applyUrgencyGhost(li, task.date, task.time);
+    } else {
+        // Completed tasks get no buttons
+        completedList.appendChild(li);
+    }
+
     });
 }
+async function createNextRecurringTask(li, recurrence) {
+    const title = li.querySelector(".task-text").textContent;
+    const date = li.querySelector(".task-date").dataset.dateValue;
+    const time = li.querySelector(".task-date").dataset.timeValue;
+    const priority = li.dataset.priority === "true";
+
+    // Get the current time
+    const currentDate = new Date(`${date}T${time}`);
+    let nextDate = new Date(currentDate);
+    //Modify date by the modifier 7 for weekly scale, 1 for monthly scale
+    if (recurrence === "weekly") {
+        nextDate.setDate(currentDate.getDate() + 7);
+    } 
+    else if (recurrence === "monthly") {
+        nextDate.setMonth(currentDate.getMonth() + 1);
+    }
+    const nextDateStr = nextDate.toISOString().split("T")[0];
+    const nextTimeStr = time;
+    await supabaseClient
+        .from("tasks")
+        .insert([
+            {
+                user_id: userId,
+                title: title,
+                date: nextDateStr,
+                time: nextTimeStr,
+                completed: false,
+                priority: priority,
+                recurrence: recurrence
+            }
+        ]);
+    loadTasks();
+}
+
 const completeSound = new Audio("images/02. Start Music.mp3");
 
 document.addEventListener("click", function(e) {
@@ -409,6 +454,7 @@ document.addEventListener("click", function(e) {
         completeSound.play();
     }
 });
+
 
 // --- LOAD TASKS ON PAGE LOAD ---
 loadTasks();

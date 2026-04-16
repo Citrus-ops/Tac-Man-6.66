@@ -11,17 +11,7 @@
 <body>
 
     <div id="reactHeader">
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script>
-            const SUPABASE_URL = "https://uoxuuvilenosauxbrjjq.supabase.co";
-            const SUPABASE_ANON_KEY = "sb_publishable_VzwijDlQR8TcBq3GWS4V1Q_K4WcE8Pn";
-            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        </script>
-        <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-        <script type="text/babel" src="./Components/Header.js"></script>
-        <script type="text/babel">ReactDOM.render(<Header />, document.querySelector('#reactContainer'));</script>
+        
     </div>
    
     <div id="currentDateTime"></div>
@@ -35,11 +25,28 @@
         <label>Set Date/Time:</label>
         <input type="date" id="taskDate">
         <input type="time" id="taskTime">
+        <select id="recurrence">
+        <option value="none">No Recurrence</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+    </select>
     </div>
 
     <br><br>
 
     <button id="BtnAddTask">Add New Task</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script>
+            const SUPABASE_URL = "https://uoxuuvilenosauxbrjjq.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_VzwijDlQR8TcBq3GWS4V1Q_K4WcE8Pn";
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        </script>
+        <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel" src="./Components/Header.js"></script>
+        <script type="text/babel">ReactDOM.render(<Header />, document.querySelector('#reactHeader'));</script>
 
     <br><br>
 
