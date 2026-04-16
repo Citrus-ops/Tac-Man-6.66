@@ -457,12 +457,7 @@ async function createNextRecurringTask(li, recurrence) {
 
 const completeSound = new Audio("images/02. Start Music.mp3");
 
-document.addEventListener("click", function(e) {
-    if (e.target.classList.contains("complete-btn")) {
-        completeSound.currentTime = 0;
-        completeSound.play();
-    }
-});
+
 
 
 // --- LOAD TASKS ON PAGE LOAD ---
