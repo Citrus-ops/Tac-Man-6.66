@@ -12,12 +12,8 @@ function closeLoginModal() {
     const modal = document.getElementById("loginModal");
     if (modal) modal.style.display = "none";
 }
-
-
-// Wait for DOM to load
-
+// On page load 
 window.onload = () => {
-    // Attach modal close button
     const closeBtn = document.getElementById("closeLoginModal");
     if (closeBtn) {
         closeBtn.onclick = closeLoginModal;
@@ -31,9 +27,7 @@ window.onload = () => {
     if (BtnSignUp) BtnSignUp.addEventListener("click", SignUp);
 };
 
-
-// LOGIN FUNCTION
-
+// Login function
 async function Login() {
     const userName = document.getElementById("userName").value.trim();
     const userPass = document.getElementById("userPass").value.trim();
@@ -69,9 +63,7 @@ async function Login() {
     }
 }
 
-
-// SIGNUP FUNCTION
-
+// SignUp function
 async function SignUp() {
     const userName = document.getElementById("userName").value.trim();
     const userPass = document.getElementById("userPass").value.trim();
