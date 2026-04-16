@@ -108,6 +108,13 @@ input[type="time"] {
 .glow-orange { box-shadow: 0 0 12px 4px #ff7800; }
 .glow-red { box-shadow: 0 0 12px 4px #ed1c24; }
 
+.priority-glow {
+    box-shadow:
+        0 0 10px #ed1c24,
+        0 0 20px #ed1c24,
+        0 0 30px #ed1c24 !important;
+}
+
 /* --- TASK CONTENT --- */
 .task-text {
     flex-grow: 1;
