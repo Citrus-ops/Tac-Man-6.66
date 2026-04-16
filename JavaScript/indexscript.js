@@ -106,7 +106,7 @@ function updateAllGhosts() {
 }
 
 // --- DELETE MODAL ---
-function openDeleteModal(li) {
+async function openDeleteModal(li) {
     const modal = document.getElementById("deleteModal");
     modal.style.display = "flex";
 
@@ -119,8 +119,25 @@ function openDeleteModal(li) {
     const newConfirm = document.getElementById("confirmDelete");
     const newCancel = document.getElementById("cancelDelete");
 
-    newConfirm.addEventListener("click", () => {
+    newConfirm.addEventListener("click", async () => {
+    const taskId = li.dataset.id;
+
+        // --- DELETE FROM SUPABASE ---
+        const { error } = await supabaseClient
+            .from("tasks")
+            .delete()
+            .eq("id", taskId);
+
+        if (error) {
+            console.error("Delete error:", error);
+            alert("Could not delete task");
+            return;
+        }
+        
         li.remove();
+        // Reload tasks to stay in sync
+        loadTasks();
+    
         modal.style.display = "none";
     });
 
@@ -271,6 +288,13 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     actions.style.display = "flex";
 }
 
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to log out?")) {
+        localStorage.removeItem("user_id");
+        location.href = "login.html";
+    }       
+});
+
 // --- LOAD TASKS FROM SUPABASE ---
 async function loadTasks() {
     const userId = Number(localStorage.getItem("user_id"));
@@ -337,11 +361,18 @@ async function loadTasks() {
 
         const completeBtn = document.createElement("button");
         completeBtn.textContent = "Complete";
+        completeBtn.classList.add("complete-btn");
         completeBtn.addEventListener("click", () => {
             li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
             actions.remove();
             dateSpan.textContent = "Completed";
-            li.style.backgroundImage = "none";
+
+            // Replace ghost with Tac-Man
+            li.style.backgroundImage = "url('images/Tac-man.png')";
+            li.style.backgroundSize = "contain";
+            li.style.backgroundRepeat = "no-repeat";
+            li.style.backgroundPosition = "left center";
+
             completedList.appendChild(li);
         });
 
@@ -367,8 +398,17 @@ async function loadTasks() {
         } else {
             completedList.appendChild(li);
         }
+        
     });
 }
+const completeSound = new Audio("images/02. Start Music.mp3");
+
+document.addEventListener("click", function(e) {
+    if (e.target.classList.contains("complete-btn")) {
+        completeSound.currentTime = 0;
+        completeSound.play();
+    }
+});
 
 // --- LOAD TASKS ON PAGE LOAD ---
 loadTasks();
