@@ -1,9 +1,13 @@
 const userId = Number(localStorage.getItem("user_id"));
 // --- LOAD TASKS ON PAGE LOAD ---
-loadTasks();
+
 if (!userId) {
     location.href = "login.html";
 }
+
+loadTasks();
+
+
 
 // --- LIVE DATE/TIME ---
 function updateDateTime() {
@@ -39,6 +43,7 @@ function getGhostColor(taskDate, taskTime) {
 }
 
 // --- ADD TASK ---
+const BtnAddTask = document.getElementById("BtnAddTask");
 BtnAddTask.addEventListener("click", addTask);
 
 async function addTask() {
@@ -480,7 +485,6 @@ document.addEventListener("click", async function(e) {
         completeSound.play();
     }
 });
-
 
 
 
