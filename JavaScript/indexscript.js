@@ -1,4 +1,5 @@
 const userId = Number(localStorage.getItem("user_id"));
+// --- LOAD TASKS ON PAGE LOAD ---
 loadTasks();
 if (!userId) {
     location.href = "login.html";
@@ -384,7 +385,6 @@ async function loadTasks() {
         completedList.appendChild(li);
 });
 
-
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
         editBtn.classList.add("edit-btn");
@@ -402,14 +402,12 @@ async function loadTasks() {
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
         li.appendChild(actions);
-
         taskList.appendChild(li);
         applyUrgencyGhost(li, task.date, task.time);
     } else {
         // Completed tasks get no buttons
         completedList.appendChild(li);
     }
-
     });
 }
 async function createNextRecurringTask(li, recurrence) {
@@ -448,7 +446,7 @@ async function createNextRecurringTask(li, recurrence) {
 
 const completeSound = new Audio("images/02. Start Music.mp3");
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", async function(e) {
     if (e.target.classList.contains("complete-btn")) {
         completeSound.currentTime = 0;
         completeSound.play();
@@ -456,5 +454,4 @@ document.addEventListener("click", function(e) {
 });
 
 
-// --- LOAD TASKS ON PAGE LOAD ---
-loadTasks();
+
