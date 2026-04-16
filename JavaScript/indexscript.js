@@ -291,6 +291,13 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     actions.style.display = "flex";
 }
 
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to log out?")) {
+        localStorage.removeItem("user_id");
+        location.href = "login.html";
+    }       
+});
+
 // --- LOAD TASKS FROM SUPABASE ---
 async function loadTasks() {
     const userId = Number(localStorage.getItem("user_id"));
