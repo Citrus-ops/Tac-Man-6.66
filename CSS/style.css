@@ -147,7 +147,7 @@ input[type="time"] {
 }
 
 /* --- EDIT MODE --- */
-.task-edit-text {
+input.task-edit-text {
     width: 250px;
     padding: 10px;
     border: 2px solid #ffd60a;
