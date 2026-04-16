@@ -312,6 +312,7 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     timeInput.remove();
     editActions.remove();
     priorityLabel.remove();
+    reassurence.remove();
 
     textSpan.style.display = "";
     dateSpan.style.display = "";
