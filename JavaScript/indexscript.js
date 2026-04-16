@@ -285,7 +285,9 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
 
     textSpan.style.display = "";
     dateSpan.style.display = "";
-    actions.style.display = "flex";
+    if (actions) {
+        actions.style.display = "flex";
+    }
 }
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
