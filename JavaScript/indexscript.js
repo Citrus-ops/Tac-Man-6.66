@@ -1,9 +1,13 @@
 const userId = Number(localStorage.getItem("user_id"));
 // --- LOAD TASKS ON PAGE LOAD ---
-loadTasks();
+
 if (!userId) {
     location.href = "login.html";
 }
+
+loadTasks();
+
+
 
 // --- LIVE DATE/TIME ---
 function updateDateTime() {
@@ -39,6 +43,7 @@ function getGhostColor(taskDate, taskTime) {
 }
 
 // --- ADD TASK ---
+const BtnAddTask = document.getElementById("BtnAddTask");
 BtnAddTask.addEventListener("click", addTask);
 
 async function addTask() {
@@ -449,16 +454,12 @@ async function createNextRecurringTask(li, recurrence) {
 
 const completeSound = new Audio("images/02. Start Music.mp3");
 
-<<<<<<< HEAD
 document.addEventListener("click", async function(e) {
     if (e.target.classList.contains("complete-btn")) {
         completeSound.currentTime = 0;
         completeSound.play();
     }
 });
-=======
-
->>>>>>> acf3c6b017af831da3ba53b9580d4c9063f20077
 
 
 
