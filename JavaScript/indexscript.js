@@ -190,10 +190,19 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     timeInput.type = "time";
     timeInput.value = dateSpan.dataset.timeValue;
 
+    const priorityLabel = document.createElement("label");
+    priorityLabel.classList.add("priority-container");
+
     const priorityInput = document.createElement("input");
     priorityInput.type = "checkbox";
-    priorityInput.id = "editPriorityCheckbox";
     priorityInput.checked = li.dataset.priority === "true";
+
+    const priorityMark = document.createElement("span");
+    priorityMark.classList.add("priority-checkmark");
+
+    priorityLabel.appendChild(priorityInput);
+    priorityLabel.appendChild(priorityMark);
+    priorityLabel.append("Priority");
 
     const recurrenceSelect = document.createElement("select");
     recurrenceSelect.id = "editRecurrence";
@@ -207,10 +216,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     });
     recurrenceSelect.value = li.dataset.recurrence || "none";
 
-    const priorityLabel = document.createElement("label");
-    priorityLabel.className = "priority-label";
-    priorityLabel.textContent = "Priority";
-    priorityLabel.prepend(priorityInput);
+    
 
     const saveBtn = document.createElement("button");
     saveBtn.textContent = "Save";
