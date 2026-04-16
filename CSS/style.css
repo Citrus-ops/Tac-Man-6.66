@@ -179,7 +179,7 @@ input[type="time"] {
 
 .task-date {
     font-size: 20px;
-    color: #ffd60a;
+    color: white;
 }
 
 .task-info {
@@ -189,42 +189,62 @@ input[type="time"] {
     min-width: 0;
 }
 
-/* --- BUTTONS --- */
+
+/* --- BASE BUTTON STYLE --- */
 .task-actions button {
+    background: #000814;
+    color: black;
+    border: 2px solid;
     padding: 6px 10px;
-    border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
+    font-family: "Press Start 2P", monospace;
+    transition: 0.2s ease;
 }
 
-.task-actions button:first-child { 
-    background: #2196F3; 
-    color: white; 
-}
-.task-actions button:last-child { 
-    background: #FF0000; 
-    color: white; 
-}
-
-.task-actions button:first-child:hover { 
-    background: #0b7ddae2; 
-    box-shadow: 0 0 10px #0b7ddae2;
-}
-.task-actions button:last-child:hover { 
-    background: #ff0000cf;
-    box-shadow: 0 0 10px #ff0000cf;
+/* --- COMPLETE BUTTON --- */
+.task-actions .complete-btn {
+    background: #52ae10 !important;
+    border-color: #52ae10 !important;
+    color: black !important;
+    box-shadow: 0 0 8px #52ae10;
 }
 
-.edit-btn {
-    background: #f69f25;
-    color: white;
+.task-actions .complete-btn:hover {
+    background: #52ae10 !important;
+    color: black !important;
+    box-shadow: 0 0 12px #52ae10;
 }
 
-.edit-btn:hover {
-    background: #f79000e0;
-    box-shadow: 0 0 10px #f79000e0;
+/* --- EDIT BUTTON --- */
+.task-actions .edit-btn {
+    background: #ffd60a !important;
+    border-color: #ffd60a !important;
+    color: black !important;
+    box-shadow: 0 0 8px #ffd60a;
 }
+
+.task-actions .edit-btn:hover {
+    background: #ffd60a !important;
+    color: black !important;
+    box-shadow: 0 0 12px #ffd60a;
+}
+
+/* --- DELETE BUTTON --- */
+.task-actions .delete-btn {
+    background: #ed1c24 !important;
+    border-color: #ed1c24 !important;
+    color: black !important;
+    box-shadow: 0 0 8px #ed1c24;
+}
+
+.task-actions .delete-btn:hover {
+    background: #ed1c24 !important;
+    color: black !important;
+    box-shadow: 0 0 12px #ed1c24;
+}
+
 
 /* --- EDIT MODE --- */
 .task-edit-text {
@@ -239,45 +259,58 @@ input[type="time"] {
     font-family: "Press Start 2P", monospace;
     text-align: center;
 }
-.save-btn { 
-    background: #2196F3;
-    color: white;
+.save-btn {
+    background: #52ae10 !important;
+    border: 2px solid #52ae10 !important;
+    color: black !important;
+    box-shadow: 0 0 8px #52ae10;
     padding: 10px 16px;
-    border: none;
     border-radius: 6px;
-    cursor: pointer; 
+    cursor: pointer;
+    font-family: "Press Start 2P", monospace;
+    transition: 0.2s ease;
 }
 
 .save-btn:hover {
-    background: #0b7ddae2; 
-    box-shadow: 0 0 10px #0b7ddae2;
+    background: #52ae10 !important;
+    color: black !important;
+    box-shadow: 0 0 12px #52ae10;
 }
 
-.cancel-btn { 
-    background: #FF0000;
-    color: white;
+.cancel-btn {
+    background: #ed1c24 !important;
+    border: 2px solid #ed1c24 !important;
+    color: black !important;
+    box-shadow: 0 0 8px #ed1c24;
     padding: 10px 16px;
-    border: none;
     border-radius: 6px;
-    cursor: pointer; 
+    cursor: pointer;
+    font-family: "Press Start 2P", monospace;
+    transition: 0.2s ease;
 }
 
 .cancel-btn:hover {
-    background: #ff0000cf;
-    box-shadow: 0 0 10px #ff0000cf;
+    background: #ed1c24 !important;
+    color: black !important;
+    box-shadow: 0 0 12px #ed1c24;
 }
 
 .confirm-btn {
-    background: #2196F3;
-    color: white;
+    background: #52ae10 !important;
+    border: 2px solid #52ae10 !important;
+    color: black !important;
+    box-shadow: 0 0 8px #52ae10;
     padding: 10px 16px;
-    border: none;
     border-radius: 6px;
     cursor: pointer;
+    font-family: "Press Start 2P", monospace;
+    transition: 0.2s ease;
 }
 
 .confirm-btn:hover {
-    background: #0b7ddabe;
+    background: #52ae10 !important;
+    color: black !important;
+    box-shadow: 0 0 12px #52ae10;
 }
 
 .edit-actions { display: flex; gap: 10px; }
@@ -488,10 +521,6 @@ input:disabled {
 }
 
 
-
-
-
-
 /* Checkmark when checked */
 .priority-container input:checked + .priority-checkmark::after {
     content: "";
@@ -515,7 +544,7 @@ input:disabled {
 
 .recurrence {
     background-color: black;
-    color: #00eaff;
+    color: #00eaff !important;
     border: 2px solid #00eaff;
     padding: 8px 12px;
     border-radius: 6px;
@@ -523,6 +552,11 @@ input:disabled {
     cursor: pointer;
     box-shadow: 0 0 8px #00eaff;
     outline: none;
+}
+
+.task-recurrence {
+    color: #00eaff;
+    font-size: 1em;
 }
 
 /* Hover glow */
@@ -534,9 +568,4 @@ input:disabled {
 .recurrence option {
     background-color: black;
     color: #00eaff;
-}
-
-.priority-container input[disabled] + .priority-checkmark {
-    opacity: 0.4;
-    cursor: not-allowed;
 }
