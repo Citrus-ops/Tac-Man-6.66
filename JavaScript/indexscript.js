@@ -45,6 +45,7 @@ async function addTask() {
     const newTask = input.value;
     const taskDate = document.getElementById("taskDate").value;
     const taskTime = document.getElementById("taskTime").value;
+    const isPriority = document.getElementById("priorityCheckbox").checked;
 
     if (!newTask.trim()) return showError("Task cannot be empty.");
     if (!taskDate) return showError("You must select a date before adding a task.");
@@ -64,6 +65,7 @@ async function addTask() {
                 date: taskDate,
                 time: taskTime,
                 completed: false,
+                priority: isPriority
                 
             }
         ]);
@@ -167,6 +169,16 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     timeInput.type = "time";
     timeInput.value = dateSpan.dataset.timeValue;
 
+     const priorityInput = document.createElement("input");
+    priorityInput.type = "checkbox";
+    priorityInput.id = "editPriorityCheckbox";
+    priorityInput.checked = li.dataset.priority === "true";
+
+    const priorityLabel = document.createElement("label");
+    priorityLabel.className = "priority-label";
+    priorityLabel.textContent = "Priority";
+    priorityLabel.prepend(priorityInput);
+
     const saveBtn = document.createElement("button");
     saveBtn.textContent = "Save";
     saveBtn.className = "save-btn";
@@ -189,9 +201,11 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     info.insertBefore(dateInput, textSpan);
     info.insertBefore(timeInput, textSpan);
 
-    li.insertBefore(editActions, actions);
+    li.appendChild(priorityLabel);
+    li.appendChild(editActions);
 
-    saveBtn.addEventListener("click", () => {
+
+    saveBtn.addEventListener("click", async () => {
         if (!input.value.trim()) return showError("Task cannot be empty.");
         if (!dateInput.value) return showError("Please select a date.");
         if (!timeInput.value) return showError("Please select a time.");
@@ -214,16 +228,36 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
 
         applyUrgencyGhost(li, dateInput.value, timeInput.value);
 
-        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions);
+        if (priorityInput.checked) {
+            li.classList.add("priority-glow");
+        } else {
+            li.classList.remove("priority-glow");
+    }
+
+    li.dataset.priority = priorityInput.checked;
+
+    await supabaseClient
+    .from("tasks")
+    .update({
+        title: input.value,
+        date: dateInput.value,
+        time: timeInput.value,
+        priority: priorityInput.checked
+    })
+    .eq("id", li.dataset.id);
+
+    await loadTasks();
+
+        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel);
     });
 
     cancelBtn.addEventListener("click", () => {
-        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions);
+        exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel);
     });
 }
 
 // EXIT EDIT MODE
-function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions) {
+function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel) {
     document.getElementById("BtnAddTask").disabled = false;
     document.getElementById("addTask").disabled = false;
     document.getElementById("taskDate").disabled = false;
@@ -233,6 +267,7 @@ function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInp
     dateInput.remove();
     timeInput.remove();
     editActions.remove();
+    priorityLabel.remove();
 
     textSpan.style.display = "";
     dateSpan.style.display = "";
@@ -259,8 +294,23 @@ async function loadTasks() {
     taskList.innerHTML = "";
     completedList.innerHTML = "";
 
-    data.forEach(task => {
+    data
+      .sort((a, b) => {
+        if (a.priority !== b.priority) {
+        return a.priority ? -1 : 1;
+        }
+    const dateA = new Date(`${a.date}T${a.time}`);
+    const dateB = new Date(`${b.date}T${b.time}`);
+
+    return dateA - dateB;
+    })   
+    .forEach(task => {
         const li = document.createElement("li");
+        li.dataset.id = task.id; 
+        li.dataset.priority = task.priority;
+    if (task.priority) {
+            li.classList.add("priority-glow");
+        }
 
         const textSpan = document.createElement("span");
         textSpan.className = "task-text";
