@@ -1,6 +1,7 @@
 function Header(){
     return(
     <div class="heading">
+        <button id="logoutBtn" className="logout-btn">Logout</button>
         <h1>Tac-Man Manager</h1>
         <img src="images/Tac-man.png" alt="Tac-man logo"/>
     </div>);
