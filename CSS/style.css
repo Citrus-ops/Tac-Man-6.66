@@ -410,11 +410,7 @@ input:disabled {
 }
 
 /* Custom neon box */
-.priority-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+
 .priority-checkmark {
     width: 20px;
     height: 20px;
