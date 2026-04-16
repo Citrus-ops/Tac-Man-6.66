@@ -155,6 +155,8 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     document.getElementById("taskTime").disabled = true;
 
     const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("task-edit-text");
     input.value = textSpan.textContent;
 
     const dateInput = document.createElement("input");
