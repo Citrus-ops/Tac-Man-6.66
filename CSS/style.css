@@ -102,17 +102,19 @@ input[type="time"] {
     background-image: url("../images/Tac-man.png");
 }
 
-/* --- GLOW COLORS --- */
-.glow-green { box-shadow: 0 0 12px 4px #1cc400; }
-.glow-yellow { box-shadow: 0 0 12px 4px #fff60e; }
-.glow-orange { box-shadow: 0 0 12px 4px #ff7800; }
-.glow-red { box-shadow: 0 0 12px 4px #ed1c24; }
 
 .priority-glow {
     box-shadow:
         0 0 10px #ed1c24,
         0 0 20px #ed1c24,
         0 0 30px #ed1c24 !important;
+}
+
+.priority-icon {
+  width: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 6px red);
 }
 
 /* --- TASK CONTENT --- */
@@ -130,6 +132,7 @@ input[type="time"] {
     display: flex;
     align-items: center;
     gap: 20px;
+    min-width: 0;
 }
 
 /* --- BUTTONS --- */

@@ -36,10 +36,10 @@ function getGhostColor(taskDate, taskTime) {
     const due = new Date(`${taskDate}T${taskTime}`);
     const diffDays = (due - now) / (1000 * 60 * 60 * 24);
 
-    if (diffDays >= 7) return { image: "images/green_ghost.png", glow: "glow-green" };
-    if (diffDays >= 4) return { image: "images/yellow_ghost.png", glow: "glow-yellow" };
-    if (diffDays >= 1) return { image: "images/orange_ghost.png", glow: "glow-orange" };
-    return { image: "images/red_ghost.png", glow: "glow-red" };
+    if (diffDays >= 7) return { image: "images/green_ghost.png"};
+    if (diffDays >= 4) return { image: "images/yellow_ghost.png"};
+    if (diffDays >= 1) return { image: "images/orange_ghost.png"};
+    return { image: "images/red_ghost.png"};
 }
 
 // --- ADD TASK ---
@@ -334,11 +334,23 @@ async function loadTasks() {
         li.dataset.recurrence = task.recurrence;
     if (task.priority) {
             li.classList.add("priority-glow");
+            
         }
 
         const textSpan = document.createElement("span");
         textSpan.className = "task-text";
         textSpan.textContent = task.title;
+
+    if (task.priority) {
+        const icon = document.createElement("img");
+        icon.src = "images/red_exclamation_mark.png"; // your red exclamation mark
+        icon.alt = "Priority";
+        icon.className = "priority-icon";
+        icon.style.width = "64px";
+        icon.style.marginRight = "8px";
+
+        textSpan.prepend(icon);
+}
 
         const dateSpan = document.createElement("span");
         dateSpan.className = "task-date";
@@ -376,7 +388,7 @@ async function loadTasks() {
             // Mark task as completed in Supabase
             await supabaseClient
                 .from("tasks")
-                .update({ completed: true })
+                .update({ completed: true, priority: false})
                 .eq("id", taskId);
 
             // Handle recurrence
@@ -386,10 +398,13 @@ async function loadTasks() {
             }
 
             // Move task visually
-            li.classList.remove("glow-green", "glow-yellow", "glow-orange", "glow-red");
             actions.remove();
             dateSpan.textContent = "Completed";
             li.style.backgroundImage = "none";
+
+            li.classList.remove("priority-glow");
+            const icon = li.querySelector(".priority-icon");
+            if (icon) icon.remove();
             completedList.appendChild(li);
         });
 
