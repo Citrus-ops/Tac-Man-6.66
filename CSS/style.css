@@ -413,9 +413,7 @@ input:disabled {
 .priority-container {
     display: flex;
     align-items: center;
-    
     gap: 8px;
-    margin-top: 10px;
 }
 .priority-checkmark {
     width: 20px;
