@@ -110,6 +110,8 @@ async function SignUp() {
     }
 
     showLoginModal("Sign up successful! You can now log in.");
+    document.getElementById("userName").value = "";
+    document.getElementById("userPass").value = "";
 }
 
 
