@@ -17,9 +17,9 @@ function closeLoginModal() {
 }
 
 
-// Waits for DOM to load
-window.onload = () => {
+// Wait for DOM to load
 
+window.onload = () => {
     // Attach modal close button
     const closeBtn = document.getElementById("closeLoginModal");
     if (closeBtn) {
@@ -35,9 +35,7 @@ window.onload = () => {
 };
 
 
-// --- LOGIN FUNCTION ---
-// Validates user input, checks Supabase for matching user info
-// Logs the user in if they match
+// LOGIN FUNCTION
 
 async function Login() {
     const userName = document.getElementById("userName").value.trim();
@@ -80,7 +78,7 @@ async function Login() {
 
 
 // SIGNUP FUNCTION
-// Creates a new user if user/password doesn't exist.
+
 async function SignUp() {
     const userName = document.getElementById("userName").value.trim();
     const userPass = document.getElementById("userPass").value.trim();
