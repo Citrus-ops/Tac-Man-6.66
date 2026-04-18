@@ -1,17 +1,21 @@
+// Retreives the logged in user's ID from Supabase
 const userId = Number(localStorage.getItem("user_id"));
-// --- LOAD TASKS ON PAGE LOAD ---
 
+// --- LOAD TASKS ON PAGE LOAD --- 
 if (!userId) {
+    // If no user is logged in, redirects to login page
     location.href = "login.html";
 }
 
-loadTasks();
+loadTasks(); // Loads tasks immeediately when page loads
 
 
 
-// --- LIVE DATE/TIME ---
+// --- LIVE DATE/TIME --- //
 function updateDateTime() {
     const now = new Date();
+    
+    // Formats date/time in a clean and easy to read way
     const formatted = now.toLocaleString("en-CA", {
         weekday: "long",
         year: "numeric",
@@ -25,10 +29,10 @@ function updateDateTime() {
     document.getElementById("currentDateTime").textContent = formatted;
 }
 
-setInterval(updateDateTime, 1000);
+setInterval(updateDateTime, 1000); // Displayed date/time refresh rate (1s)
 updateDateTime();
 
-setInterval(updateAllGhosts, 2000);
+setInterval(updateAllGhosts, 2000); // Refresh rate of urgency ghosts (2s)
 
 // --- URGENCY GHOST LOGIC ---
 function getGhostColor(taskDate, taskTime) {
@@ -36,16 +40,18 @@ function getGhostColor(taskDate, taskTime) {
     const due = new Date(`${taskDate}T${taskTime}`);
     const diffDays = (due - now) / (1000 * 60 * 60 * 24);
 
+    // Chooses ghost colour based on urgency of task
     if (diffDays >= 7) return { image: "images/green_ghost.png"};
     if (diffDays >= 4) return { image: "images/yellow_ghost.png"};
     if (diffDays >= 1) return { image: "images/orange_ghost.png"};
     return { image: "images/red_ghost.png"};
 }
 
-// --- ADD TASK ---
+// --- ADD TASK BUTTON ---
 const BtnAddTask = document.getElementById("BtnAddTask");
 BtnAddTask.addEventListener("click", addTask);
 
+// Adds new task to Supabase
 async function addTask() {
     const input = document.getElementById("addTask");
     const newTask = input.value;
@@ -53,15 +59,18 @@ async function addTask() {
     const taskTime = document.getElementById("taskTime").value;
     const isPriority = document.getElementById("priorityCheckbox").checked;
     const recurrence = document.getElementById("recurrence").value;
+
+    // Checks all required fields have inputs (Shows error alert if any are empty)
     if (!newTask.trim()) return showError("Task cannot be empty.");
     if (!taskDate) return showError("You must select a date before adding a task.");
     if (!taskTime) return showError("You must select a time before adding a task.");
 
+    // Prevents a task from being set in the past
     const now = new Date();
     const selected = new Date(`${taskDate}T${taskTime}`);
     if (selected < now) return showError("Tasks cannot be set in the past.");
 
-    // --- SAVE TO SUPABASE ---
+    // Saves task to Supabase
     const { data, error } = await supabaseClient
         .from("tasks")
         .insert([
@@ -84,19 +93,18 @@ async function addTask() {
         return;
     }
 
-    // Reload tasks from database
+    // Reloads tasks from database
     loadTasks();
 
-    // Reset inputs
+    // Reset input fields
     input.value = "";
     document.getElementById("taskDate").value = "";
     document.getElementById("taskTime").value = "";
 }
 
-// --- APPLY URGENCY GHOST ---
+// Applies urgency ghost to a task
 function applyUrgencyGhost(li, taskDate, taskTime) {
     const ghost = getGhostColor(taskDate, taskTime);
-
     li.style.backgroundImage = `url(${ghost.image})`;
 }
 // --- UPDATE ALL GHOSTS ---
@@ -116,6 +124,7 @@ async function openDeleteModal(li) {
     const modal = document.getElementById("deleteModal");
     modal.style.display = "flex";
 
+    // Resets event listeners
     const confirmBtn = document.getElementById("confirmDelete");
     const cancelBtn = document.getElementById("cancelDelete");
 
@@ -124,11 +133,12 @@ async function openDeleteModal(li) {
 
     const newConfirm = document.getElementById("confirmDelete");
     const newCancel = document.getElementById("cancelDelete");
-
+    
+    // Confirm delete
     newConfirm.addEventListener("click", async () => {
     const taskId = li.dataset.id;
 
-        // --- DELETE FROM SUPABASE ---
+        // Delete from Supabase
         const { error } = await supabaseClient
             .from("tasks")
             .delete()
@@ -161,6 +171,7 @@ function showError(message) {
     msg.textContent = message;
     modal.style.display = "flex";
 
+    // Resets event listeners
     closeBtn.replaceWith(closeBtn.cloneNode(true));
     const newClose = document.getElementById("closeError");
 
@@ -171,6 +182,7 @@ function showError(message) {
 
 // --- EDIT MODE ---
 function enterEditMode(li, textSpan, dateSpan, actions) {
+    // Disables main inputs while editing to prevent conflict
     document.getElementById("BtnAddTask").disabled = true;
     document.getElementById("addTask").disabled = true;
     document.getElementById("taskDate").disabled = true;
@@ -178,6 +190,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     document.getElementById("recurrence").disabled = true;
     document.getElementById("priorityCheckbox").disabled = true;
 
+    // Creates editable fields
     const input = document.createElement("input");
     input.type = "text";
     input.classList.add("task-edit-text");
@@ -191,6 +204,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     timeInput.type = "time";
     timeInput.value = dateSpan.dataset.timeValue;
 
+    // Priority checkbox (edit mode)
     const priorityLabel = document.createElement("label");
     priorityLabel.classList.add("priority-container");
 
@@ -205,6 +219,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     priorityLabel.appendChild(priorityMark);
     priorityLabel.append("Priority");
 
+    // Recurrence dropdown menu (edit mode)
     const recurrenceSelect = document.createElement("select");
     recurrenceSelect.id = "editRecurrence";
     recurrenceSelect.classList.add("recurrence");
@@ -218,7 +233,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     recurrenceSelect.value = li.dataset.recurrence || "none";
 
     
-
+    // Save and cancel buttons
     const saveBtn = document.createElement("button");
     saveBtn.textContent = "Save";
     saveBtn.className = "save-btn";
@@ -232,10 +247,12 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     editActions.appendChild(saveBtn);
     editActions.appendChild(cancelBtn);
 
+    // Hides original content
     textSpan.style.display = "none";
     dateSpan.style.display = "none";
     actions.style.display = "none";
 
+    // Inserts editable fields
     const info = li.querySelector(".task-info");
     info.insertBefore(input, textSpan);
     info.insertBefore(dateInput, textSpan);
@@ -245,7 +262,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
     li.appendChild(priorityLabel);
     li.appendChild(editActions);
 
-
+    // Saves changes made in edit mode w/ basic error handlers
     saveBtn.addEventListener("click", async () => {
         if (!input.value.trim()) return showError("Task cannot be empty.");
         if (!dateInput.value) return showError("Please select a date.");
@@ -255,6 +272,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
         const selected = new Date(`${dateInput.value}T${timeInput.value}`);
         if (selected < now) return showError("Tasks cannot be set in the past.");
 
+        // Updates UI
         textSpan.textContent = input.value;
         dateSpan.dataset.dateValue = dateInput.value;
         dateSpan.dataset.timeValue = timeInput.value;
@@ -269,6 +287,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
 
         applyUrgencyGhost(li, dateInput.value, timeInput.value);
 
+        // Toggles glow on prioritized tasks
         if (priorityInput.checked) {
             li.classList.add("priority-glow");
         } else {
@@ -277,6 +296,7 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
 
     li.dataset.priority = priorityInput.checked;
 
+    // Saves changes to Supabase
     await supabaseClient
     .from("tasks")
     .update({
@@ -293,13 +313,15 @@ function enterEditMode(li, textSpan, dateSpan, actions) {
         exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel, recurrenceSelect);
     });
 
+    // Cancels editing
     cancelBtn.addEventListener("click", () => {
         exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel, recurrenceSelect);
     });
 }
 
-// EXIT EDIT MODE
+// --- EXIT EDIT MODE ---
 async function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, timeInput, editActions, priorityLabel, recurrence) {
+    // Re-enables main inputs
     document.getElementById("BtnAddTask").disabled = false;
     document.getElementById("addTask").disabled = false;
     document.getElementById("taskDate").disabled = false;
@@ -307,6 +329,7 @@ async function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, t
     document.getElementById("recurrence").disabled = false;
     document.getElementById("priorityCheckbox").disabled = false;
 
+    // Removes edit fields
     input.remove();
     dateInput.remove();
     timeInput.remove();
@@ -314,6 +337,7 @@ async function exitEditMode(li, textSpan, dateSpan, actions, input, dateInput, t
     priorityLabel.remove();
     recurrence.remove();
 
+    // Restores main UI
     textSpan.style.display = "";
     dateSpan.style.display = "";
     if (actions) {
@@ -342,6 +366,8 @@ async function loadTasks() {
     taskList.innerHTML = "";
     completedList.innerHTML = "";
 
+
+    // Sort all tasks by priority first, then date
     data
       .sort((a, b) => {
         if (a.priority !== b.priority) {
@@ -357,6 +383,8 @@ async function loadTasks() {
         li.dataset.id = task.id; 
         li.dataset.priority = task.priority;
         li.dataset.recurrence = task.recurrence;
+
+        // Priority glow
     if (task.priority) {
             li.classList.add("priority-glow");
             
@@ -366,6 +394,7 @@ async function loadTasks() {
         textSpan.className = "task-text";
         textSpan.textContent = task.title;
 
+        // Priority icon
     if (task.priority) {
         const icon = document.createElement("img");
         icon.src = "images/red_exclamation_mark.png";
@@ -376,7 +405,7 @@ async function loadTasks() {
 
         textSpan.prepend(icon);
 }
-
+        // Date + Time display
         const dateSpan = document.createElement("span");
         dateSpan.className = "task-date";
         dateSpan.dataset.dateValue = task.date;
@@ -384,6 +413,7 @@ async function loadTasks() {
         const recurrenceSpan = document.createElement("span");
         recurrenceSpan.className = "task-recurrence";
 
+        // Task recurrence dropdown and options
         if (task.recurrence && task.recurrence !== "none") {
             recurrenceSpan.textContent = 
             task.recurrence === "weekly" ? "↻ Weekly" :
@@ -401,15 +431,18 @@ async function loadTasks() {
             minute: "2-digit"
         });
 
+        // Task info container
         const info = document.createElement("div");
         info.className = "task-info";
         info.appendChild(textSpan);
         info.appendChild(dateSpan);
         info.appendChild(recurrenceSpan);
 
+        // Action buttons
         const actions = document.createElement("div");
         actions.className = "task-actions";
 
+        // Complete button
      const completeBtn = document.createElement("button");
         completeBtn.textContent = "Complete";
         completeBtn.classList.add("complete-btn");
@@ -438,17 +471,20 @@ async function loadTasks() {
             dateSpan.textContent = "Completed";
             li.style.backgroundImage = "none";
 
+            // Removes priority indicators
             li.classList.remove("priority-glow");
             const icon = li.querySelector(".priority-icon");
             if (icon) icon.remove();
             completedList.appendChild(li);
         });
 
+        // Edit button
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
         editBtn.classList.add("edit-btn");
         editBtn.addEventListener("click", () => enterEditMode(li, textSpan, dateSpan, actions));
 
+        // Delete button
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.classList.add("delete-btn"); 
@@ -457,7 +493,7 @@ async function loadTasks() {
         li.appendChild(info);
 
         if (!task.completed) {
-        // Only add buttons for active tasks
+        // Only active tasks get buttons
         actions.appendChild(completeBtn);
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
@@ -470,12 +506,15 @@ async function loadTasks() {
     }
     });
 }
+// --- CREATE NEXT RECURRING TASK ---
 async function createNextRecurringTask(li, recurrence) {
+    // Retrieves title (ignores priority icon)
      const textSpan = li.querySelector(".task-text");
     const title = [...textSpan.childNodes]
         .filter(n => n.nodeType === Node.TEXT_NODE)
         .map(n => n.textContent.trim())
         .join(" ");
+
     const date = li.querySelector(".task-date").dataset.dateValue;
     const time = li.querySelector(".task-date").dataset.timeValue;
     const priority = li.dataset.priority === "true";
@@ -492,6 +531,8 @@ async function createNextRecurringTask(li, recurrence) {
     }
     const nextDateStr = nextDate.toISOString().split("T")[0];
     const nextTimeStr = time;
+
+    // Inserts new recurring task
     await supabaseClient
         .from("tasks")
         .insert([
@@ -505,11 +546,13 @@ async function createNextRecurringTask(li, recurrence) {
                 recurrence: recurrence
             }
         ]);
-    loadTasks();
+    loadTasks(); // Refreshes UI
 }
 
+// --- COMPLETE SOUND EFFECT ---
 const completeSound = new Audio("images/02. Start Music.mp3");
 
+// Plays sound when clicking complete button for any task
 document.addEventListener("click", async function(e) {
     if (e.target.classList.contains("complete-btn")) {
         completeSound.currentTime = 0;

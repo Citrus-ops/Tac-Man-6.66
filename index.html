@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <!-- Favicon + Stylesheet -->
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <title>Tac-Man Manager</title>
@@ -11,24 +13,30 @@
 <body>
     <div class="page-frame">
 
+
     <div id="reactHeader">
         
     </div>
    
     <div id="currentDateTime"></div>
 
+    <!-- Input task -->
     <label>New Task:</label>
     <input type="text" id="addTask" placeholder="Enter a task">
-     <label class="priority-container">
+     
+    <!-- Priority checkbox -->
+    <label class="priority-container">
           <input type="checkbox" id="priorityCheckbox">
           <span class="priority-checkmark"></span>
           Priority
     </label>
 
+    <!-- Date/Time + Recurrence dropdown-->
     <div class="datetime-container">
         <label>Set Date/Time:</label>
         <input type="date" id="taskDate">
         <input type="time" id="taskTime">
+
         <select id="recurrence" class="recurrence">
         <option value="none">No Recurrence</option>
         <option value="weekly">Weekly</option>
@@ -40,25 +48,30 @@
 
     <button id="BtnAddTask">Add New Task</button>
 
+    <!-- Supbase Setup-->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script>
             const SUPABASE_URL = "https://uoxuuvilenosauxbrjjq.supabase.co";
             const SUPABASE_ANON_KEY = "sb_publishable_VzwijDlQR8TcBq3GWS4V1Q_K4WcE8Pn";
             const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         </script>
+
+    <!-- React + Babel (for Header)-->
         <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
         <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+       
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <script type="text/babel" src="./Components/Header.js"></script>
         <script type="text/babel">ReactDOM.render(<Header />, document.querySelector('#reactHeader'));</script>
 
     <br><br>
 
+    <!-- Active tasks list-->
     <label>In Progress</label>
     <ul id="taskList"></ul>
 
     <br><br>
-
+    <!-- Completed tasks list -->
     <label>Completed</label>
     <ul id="completedList"></ul>
 
@@ -88,10 +101,14 @@
     <script src="JavaScript/indexscript.js"></script>
     </div> 
 </body>
+
+<!-- React & Babel (for footer)-->
     <div id="reactFooter">
+
         <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
         <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+       
         <script type="text/babel" src="./Components/Footer.js"></script>
         <script type="text/babel">ReactDOM.render(<Footer />, document.querySelector('#reactFooter'));</script>
     </div>
